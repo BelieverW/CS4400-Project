@@ -104,13 +104,15 @@
                     <label>GT Email Address</label>
                     <input type="text" class="form-control span12" id="sign_up_email" value="">
                 </div>
-                <div class="form-group">
+                <div class="form-group has-feedback" id="pw_group">
                     <label>Password</label>
-                    <input type="password" class="form-control span12" id="sign_up_pw" value="" onblur="check()">
+                    <input type="password" class="form-control span12" id="sign_up_pw" value="">
+                    <span class="glyphicon form-control-feedback" style="visibility:hidden"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group has-feedback" id="pw_check_group">
                     <label>Confirm Password</label>
-                    <input type="password" class="form-control span12" id="sign_up_pw_check" onblur="check()" value="">
+                    <input type="password" class="form-control span12" id="sign_up_pw_check" oninput="check()" value="">
+                    <span class="glyphicon form-control-feedback" style="visibility:hidden" id="pw_check"></span>
                 </div>
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-12">
@@ -144,8 +146,17 @@
 		          document.getElementById("sign_up_pw_check").value)
 	           {
 		          $("#warning").css("visibility", "visible");
+                  $("#pw_check").css("visibility", "visible");
+                  $("#pw_check").removeClass("glyphicon-ok");
+                  $("#pw_check").addClass("glyphicon-remove");
+                  $("#pw_check_group").removeClass("has-success");
+                  $("#pw_check_group").addClass("has-error");
 	           }else{
 		          $("#warning").css("visibility", "hidden");
+                  $("#pw_check").removeClass("glyphicon-remove");
+                  $("#pw_check").addClass("glyphicon-ok");
+                  $("#pw_check_group").removeClass("has-error");
+                  $("#pw_check_group").addClass("has-success");
 	           }
         }
     </script>
