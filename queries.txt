@@ -1,0 +1,187 @@
+1.log in
+
+1.1 login
+SELECT COUNT(*)
+FROM USER
+WHERE UName = 'Justin Bieber' and Pw = 'JustinBieber';
+
+1.2 check
+SELECT UserType
+FROM USER
+WHERE UName = 'Justin Bieber';
+
+
+2.registration
+
+2.1 check
+SELECT COUNT(*)
+FROM USER
+WHERE GTEmail = 'Zhao.Si@gatech.edu';
+
+2.2 add
+INSERT INTO USER VALUES
+('Zhao Si','ZhaoSi','student','Zhao.Si@gatech.edu',NULL,NULL);
+
+
+
+
+
+1.Main Page
+
+SELECT CName
+FROM COURSE;
+
+SELECT PName
+FROM PROJECT;
+
+
+3. Edit Profile
+
+3.1 view
+SELECT DName, USER.MName, Year
+FROM MAJOR, USER
+WHERE UName = 'Justin Bieber' and USER.MName = MAJOR.MName;
+
+3.2 update
+UPDATE USER
+SET MName = 'Architecture (BS)', Year = 'Junior'
+WHERE UName = 'Zhao Si';
+
+
+4. my application
+SELECT Date, PName, Status
+FROM APPLY, USER
+WHERE SName = UName and UName = 'Justin Bieber';
+
+
+5. View and Apply Project
+
+5.1 view
+SELECT *
+FROM PROJECT
+WHERE PName = 'Frog Choir';
+
+SELECT CaName
+FROM PROJECT_CATEGORY
+WHERE PName = 'Frog Choir';
+
+SELECT PRequirement
+FROM PROJECT_REQUIREMENT
+WHERE PName = 'Frog Choir';
+
+5.2 apply
+5.2.1 check
+SELECT COUNT(*)
+FROM APPLY
+WHERE SName = 'Zhao Si' and PName = 'Frog Choir';
+5.2.2 apply
+INSERT INTO APPLY VALUES
+('Zhao Si','Frog Choir',CURDATE(),'Pending');
+
+
+6. View Course
+SELECT *
+FROM COURSE
+WHERE CName = 'Intro-Object Orient Prog';
+
+SELECT CaName
+FROM COURSE_CATEGORY, COURSE
+WHERE COURSE.CNumber = COURSE_CATEGORY.CNumber and CName = 'Intro-Object Orient Prog';
+
+
+7. SEARCH
+
+7.1 search course
+SELECT CName
+FROM COURSE AS C
+WHERE DesName = 'Sustainable Communities'
+and CName LIKE '%Advan%'
+and EXISTS (SELECT * FROM COURSE_CATEGORY AS CC WHERE C.CNumber = CC.CNumber and CaName = 'Computing for good');
+
+7.2 search project
+SELECT PName
+FROM PROJECT AS P
+WHERE DesName = 'Sustainable Communities'
+and PName LIKE '%Poti%'
+and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'Computer Engineering (BS/MS)' or PRequirement = 'NoMajRequirement'))
+and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'Freshman' or PRequirement = 'NoYearRequirement'))
+and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'College of Computing' or PRequirement = 'NoDepRequirement'))
+and EXISTS (SELECT * FROM PROJECT_CATEGORY AS C WHERE P.PName = C.PName and CaName = 'Computing for good');
+
+
+
+
+
+2. View Applications
+
+2.1 view
+SELECT *
+FROM APPLY;
+
+2.2 change status
+UPDATE APPLY
+SET Status = 'Approved'
+WHERE SName = 'Justin Bieber' and PName = 'Defence Against the Dark Arts';
+
+UPDATE APPLY
+SET Status = 'Rejected'
+WHERE SName = 'Justin Bieber' and PName = 'Defence Against the Dark Arts';
+
+
+3. View Popular Project Report
+SELECT PName, COUNT(*)
+FROM APPLY
+GROUP BY PName
+ORDER BY COUNT(*) DESC
+LIMIT 10;
+
+
+4. View Application Report
+4.1 total application
+SELECT COUNT(*)
+FROM APPLY;
+
+4.2 total approved
+SELECT COUNT(*)
+FROM APPLY
+WHERE Status = 'Approved';
+
+4.3 report
+CREATE VIEW ACCEPT (PName,ACNumber) AS
+SELECT PName, COUNT(*) FROM APPLY WHERE Status = 'Approved' GROUP BY PName
+UNION
+SELECT DISTINCT PName, 0 FROM APPLY AS A1 WHERE NOT EXISTS (SELECT * FROM APPLY AS A2 WHERE A1.PName = A2.PName and A2.Status = 'Approved');
+
+SELECT APPLY.PName, COUNT(*), ACNumber/COUNT(*)
+FROM APPLY,ACCEPT
+WHERE APPLY.PName = ACCEPT.PName
+GROUP BY APPLY.PName
+ORDER BY ACNumber/COUNT(*) DESC;
+
+DROP VIEW ACCEPT;
+
+4.4 top major
+SELECT MName
+FROM APPLY, USER
+WHERE PName = 'Charms' and SName = UName
+GROUP BY MName
+ORDER BY COUNT(*) DESC
+LIMIT 3;
+
+
+5.add a project
+INSERT INTO PROJECT VALUES
+('PNAME',40,'BALABALA....','ANAME','EMAIL','Sustainable Communities');
+
+INSERT INTO PROJECT_CATEGORY VALUES ('PNAME','computing for good');
+
+INSERT INTO PROJECT_REQUIREMENT VALUES ('PNAME','NoMajRequirement');
+INSERT INTO PROJECT_REQUIREMENT VALUES ('PNAME','NoYearRequirement');
+INSERT INTO PROJECT_REQUIREMENT VALUES ('PNAME','NoDepRequirement');
+
+
+6. Add a Course
+INSERT INTO COURSE VALUES
+('CNAME','CNUMBER','INSTRUCTOR',40,'Sustainable Communities');
+
+INSERT INTO COURSE_CATEGORY VALUES ('CNAME','computing for good');
