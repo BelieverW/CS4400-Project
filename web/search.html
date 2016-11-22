@@ -162,76 +162,149 @@
     
     <div class="content">
         <div class="header">
-            
-            <h1 class="page-title">Project List</h1>
-                    <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> </li>
-            <li class="active">Project List</li>
-        </ul>
-
+            <h1 class="page-title">Search</h1>
+                <ul class="breadcrumb">
+                    <li><a href="index.html">Home</a> </li>
+                    <li class="active">Search</li>
+                </ul>
         </div>
         
-        <div ng-app="orderByExample2">
-        <div ng-controller="ExampleController">
-        <table id="application_table" class="table table-striped table-bordered" cellspacing="0" width="100%">       
-        <thead>
-            <tr>
-                <th>Project Name</th>
-                <th>Advisor</th>
-                <th>Apply</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-                <td id="project_name">{{application.name}}</td>
-                <td>{{application.advisor}}</td>
-                <td><a href="#" value={{application.name}} onclick="test(this)">View Detail</a></td>
-            </tr>
-        </tbody>
-        </table>
+        <div class="main-content">
+            
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                 <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">Title</label>         
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="title" placeholder="Enter Project/Course Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="advisorname" class="col-sm-2 control-label">Designation</label>
+                        <div class="col-sm-10">
+                            <select name="designation" id="designation" class="form-control">
+                                <option value="sc">Sustainable Communities</option>
+                                <option value="community">Community</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="major" class="col-sm-2 control-label">Major</label>
+                        <div class="col-sm-10">
+                            <select name="major" id="major" class="form-control">
+                                <option value="freshman">Freshman</option>
+                                <option value="sophomore">Sophomore</option>
+                                <option value="junior">Junior</option>
+                                <option value="senior">Senior</option>
+                            </select>
+                        </div>
+                    </div>
+                     
+                     <div class="form-group">
+                        <label for="year" class="col-sm-2 control-label">Year</label>
+                        <div class="col-sm-10">
+                            <select name="year" id="year" class="form-control">
+                                <option value="freshman">Freshman</option>
+                                <option value="sophomore">Sophomore</option>
+                                <option value="junior">Junior</option>
+                                <option value="senior">Senior</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                 <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="category" class="col-sm-2 control-label">Category</label>         
+                        <div class="col-sm-10">
+                             <select multiple class="form-control category" onchange="check_if_can_submit()">
+                                <option value="Adaptive Learning" >Adaptive Learning</option>
+                                <option value="Crowd-Sourced">Crowd-Sourced</option>
+                                <option value="Computing for Good">Computing for Good</option>
+                                <option value="Collaborative Action">Collaborative Action</option>
+                                <option value="Doing Good for Your Neighborhood">Doing Good for Your Neighborhood</option>
+                                <option value="Reciprocal Teaching and Learning">Reciprocal Teaching and Learning</option>
+                                <option value="Sustainable Communities">Sustainable Communities</option>
+                                <option value="Technology for Social Good">Technology for Social Good</option>
+                                <option value="Urban Development">Urban Development</option>
+                            </select>
+                        </div>
+                    </div>
+                     
+                     <div class="form-group">
+                         <div class="col-sm-push-2 col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="project"> Project
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="course"> Course
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="both"> Both
+                                </label>
+                         </div>
+                    </div>
+                </form>
+            </div>   
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <a class="btn btn-primary pull-right" onclick="reset()">Reset Filter</a>
+                <a class="btn btn-primary pull-right" onclick="filter()" style="margin-right: 10px">Apply Filter</a>
             </div>
         </div>
-
-
+         <div class="row">
+            <div class="col-sm-12" style="padding:20px">
+            </div>
+        </div>
+        </div>
+        
+        <div class="result-table" style="display:none">
+            <div ng-app="orderByExample2">
+                <div ng-controller="ExampleController">
+                    <table id="application_table" class="table table-striped table-bordered" cellspacing="0" width="100%">       
+                    <thead>
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
+                            <td id="project_name">{{application.name}}</td>
+                            <td>{{application.type}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <footer>
             <hr>
             <p>© 2016 <a href="http://www.gatech.edu/" target="_blank">Georgia Tech</a></p>
         </footer>
-        </div>
+    </div>
     </div>
 
 
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/d3.v3.min.js"></script>
     <script type="text/javascript">
         (function(angular) {
             'use strict';
             angular.module('orderByExample2', [])
                 .controller('ExampleController', ['$scope', function($scope) {
                     var applications = [
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'}
+                        {number: 1, name: 'Excel Current Events', type: "Project"},
+                        {number: 2, name: 'Know Your Water', type: "Project"},
+                        {number: 3, name: 'Excel Peer Support Network', type: "Project"},
+                        {number: 4, name: 'Database Update', type: "Project"},
+                        {number: 1, name: 'Excel Current Events', type: "Project"},
+                        {number: 2, name: 'Know Your Water', type: "Project"},
+                        {number: 3, name: 'Excel Peer Support Network', type: "Project"}
                     ];
                     $scope.propertyName = 'name';
                     $scope.applications = applications;
@@ -249,6 +322,22 @@
                 arrayContent.push($(this).text());
             })
             alert(arrayContent[0]);
+        }
+        function reset() {
+            $('#designation').prop('selectedIndex',0);
+            $('#major').prop('selectedIndex',0);
+            $('#year').prop('selectedIndex',0);
+            $('#inlineRadio1').prop('checked', false);
+            $('#inlineRadio2').prop('checked', false);
+            $('#inlineRadio3').prop('checked', false);
+            $("#title").val('');
+            $('.category option').prop('selected', false).trigger('chosen:updated');
+            d3.select(".result-table")
+                .style("display", "none");
+        }
+        function filter() {
+            d3.select(".result-table")
+                .style("display", "block");
         }
     </script>
 
