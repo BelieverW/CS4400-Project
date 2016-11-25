@@ -1,3 +1,40 @@
+<?php
+$result1 = "";
+$result2 = "";
+$getResultCourse = FALSE;
+$getResultProject = FALSE;
+if (isset($_GET['filter'])) {
+    include "dbinfo.php";
+    if(isset($_GET['radio']))
+    {
+        $type = $_GET['radio'];
+        $sql1 = "SELECT CName FROM COURSE";
+        $sql2 = "SELECT PName FROM PROJECT";
+
+        if ($type === "Course" || $type === "Both") {
+            $result1 = $db->query($sql1);
+            $getResultCourse = TRUE;
+        }
+        if ($type === "Project" || $type === "Both") {
+            $result2 = $db->query($sql2);
+            $getResultProject = TRUE;
+        }
+
+    }
+    else{
+        $sql1 = "SELECT CName FROM COURSE";
+        $sql2 = "SELECT PName FROM PROJECT";
+
+        $result1 = $db->query($sql1);
+        $result2 = $db->query($sql2);
+
+        $getResultCourse = TRUE;
+        $getResultProject = TRUE;
+    }
+    $db->close();
+}
+
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -109,7 +146,7 @@
                 <li><a href="./">Security</a></li>
                 <li><a tabindex="-1" href="./">Payments</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                <li><a tabindex="-1" href="login.html">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -137,14 +174,14 @@
         </a>
     </li>
         <li><ul class="project-menu nav nav-list collapse in">
-                <li class="visible-xs visible-sm"><a href="#">Project</a></span>
+                <li class="visible-xs visible-sm"><a href="#">Project</a></li>
             <li class="active"><a href="View-and-Apply.html"><span class="fa fa-caret-right"></span> Project List</a></li>
     </ul></li>
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
         <li><ul class="accounts-menu nav nav-list collapse">
-            <li ><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li ><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li ><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li ><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li ><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li>
 
@@ -172,20 +209,22 @@
         <div class="main-content">
             
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                 <form class="form-horizontal" role="form">
+            <form class="col-xs-12 form-horizontal" roel="form" method="get">
+                <div class="col-xs-12 col-sm-6">
+                <div class="form-horizontal">
                     <div class="form-group">
                         <label for="title" class="col-sm-2 control-label">Title</label>         
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="title" placeholder="Enter Project/Course Name">
+                            <input name="title" type="text" class="form-control" id="title" placeholder="Enter Project/Course Name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="advisorname" class="col-sm-2 control-label">Designation</label>
+                        <label for="designation" class="col-sm-2 control-label">Designation</label>
                         <div class="col-sm-10">
                             <select name="designation" id="designation" class="form-control">
-                                <option value="sc">Sustainable Communities</option>
-                                <option value="community">Community</option>
+                                <option value="default">Default</option>
+                                <option value="Sustainable Communities">Sustainable Communities</option>
+                                <option value="Community">Community</option>
                             </select>
                         </div>
                     </div>
@@ -193,10 +232,13 @@
                         <label for="major" class="col-sm-2 control-label">Major</label>
                         <div class="col-sm-10">
                             <select name="major" id="major" class="form-control">
-                                <option value="freshman">Freshman</option>
-                                <option value="sophomore">Sophomore</option>
-                                <option value="junior">Junior</option>
-                                <option value="senior">Senior</option>
+                                <option value="default">Default</option>
+                                <option value="CS">Computer Science</option>
+                                <option value="ARCH">Architecture</option>
+                                <option value="BMED">Biomedical Engineering</option>
+                                <option value="PUBP">Policy and Government</option>
+                                <option value="EAS">Earth and Atmospheric</option>
+                                <option value="BIOL">Biological Science</option>
                             </select>
                         </div>
                     </div>
@@ -205,6 +247,7 @@
                         <label for="year" class="col-sm-2 control-label">Year</label>
                         <div class="col-sm-10">
                             <select name="year" id="year" class="form-control">
+                                <option value="default">Default</option>
                                 <option value="freshman">Freshman</option>
                                 <option value="sophomore">Sophomore</option>
                                 <option value="junior">Junior</option>
@@ -212,14 +255,14 @@
                             </select>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-6">
-                 <form class="form-horizontal" role="form">
+                <div class="col-xs-12 col-sm-6">
+                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label for="category" class="col-sm-2 control-label">Category</label>         
+                        <label class="col-sm-2 control-label">Category</label>
                         <div class="col-sm-10">
-                             <select multiple class="form-control category" onchange="check_if_can_submit()">
+                             <select multiple name="category" class="form-control category">
                                 <option value="Adaptive Learning" >Adaptive Learning</option>
                                 <option value="Crowd-Sourced">Crowd-Sourced</option>
                                 <option value="Computing for Good">Computing for Good</option>
@@ -236,50 +279,65 @@
                      <div class="form-group">
                          <div class="col-sm-push-2 col-sm-10">
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="project"> Project
+                                    <input type="radio" name="radio" id="inlineRadio1" value="Project"> Project
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="course"> Course
+                                    <input type="radio" name="radio" id="inlineRadio2" value="Course"> Course
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="both"> Both
+                                    <input type="radio" name="radio" id="inlineRadio3" value="Both"> Both
                                 </label>
                          </div>
                     </div>
-                </form>
-            </div>   
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <a class="btn btn-primary pull-right" onclick="reset()">Reset Filter</a>
-                <a class="btn btn-primary pull-right" onclick="filter()" style="margin-right: 10px">Apply Filter</a>
+                </div>
             </div>
+                <div class="col-sm-12">
+                    <button class="btn btn-primary pull-right" onclick="reset()">Reset Filter</button>
+                    <button type="submit" name="filter" class="btn btn-primary pull-right" style="margin-right: 10px">Apply Filter</button>
+                </div>
+            </form>
         </div>
          <div class="row">
             <div class="col-sm-12" style="padding:20px">
             </div>
         </div>
         </div>
-        
-        <div class="result-table" style="display:none">
-            <div ng-app="orderByExample2">
-                <div ng-controller="ExampleController">
-                    <table id="application_table" class="table table-striped table-bordered" cellspacing="0" width="100%">       
-                    <thead>
-                        <tr>
-                            <th>Project Name</th>
-                            <th>Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-                            <td id="project_name">{{application.name}}</td>
-                            <td>{{application.type}}</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            </div>
+
+       <div class="result-table">  <!-- style="display:none"-->
+           <table id="application_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+               <thead>
+               <tr>
+                   <th>Project Name</th>
+                   <th>Type</th>
+               </tr>
+               </thead>
+               <tbody>
+               <?php
+               if ($getResultCourse === TRUE) {
+                   while($rs = $result1->fetch_array(MYSQLI_ASSOC)) {
+                       $name = $rs['CName'];
+                       echo "
+                                        <tr>
+                                            <td id='$name'>$name</td>
+                                            <td>Course</td>
+                                        </tr>
+                                    ";
+                   }
+               }
+               if ($getResultProject === TRUE) {
+                   while($rs = $result2->fetch_array(MYSQLI_ASSOC)) {
+                       $name = $rs['PName'];
+                       echo "
+                                        <tr>
+                                            <td id='$name'>$name</td>
+                                            <td>Project</td>
+                                        </tr>
+                                    ";
+                   }
+               }
+               ?>
+               </tbody>
+           </table>
         </div>
         <footer>
             <hr>
@@ -297,20 +355,12 @@
             'use strict';
             angular.module('orderByExample2', [])
                 .controller('ExampleController', ['$scope', function($scope) {
-                    var applications = [
-                        {number: 1, name: 'Excel Current Events', type: "Project"},
-                        {number: 2, name: 'Know Your Water', type: "Project"},
-                        {number: 3, name: 'Excel Peer Support Network', type: "Project"},
-                        {number: 4, name: 'Database Update', type: "Project"},
-                        {number: 1, name: 'Excel Current Events', type: "Project"},
-                        {number: 2, name: 'Know Your Water', type: "Project"},
-                        {number: 3, name: 'Excel Peer Support Network', type: "Project"}
-                    ];
+                    var applications = $outp;
                     $scope.propertyName = 'name';
                     $scope.applications = applications;
             }]);
         })(window.angular);
-        
+
         $(document).ready(function() {
             $('#application_table').DataTable();
         });
