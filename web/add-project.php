@@ -1,3 +1,46 @@
+<?php session_start() ?>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $nameAlreadyExist = FALSE;
+    $success = FALSE;
+    $refresh = FALSE;
+    if (isset($_GET['submit'])) {
+        include "dbinfo.php";
+
+        $newprojectname = $_GET['projectname'];
+        $newadvisor = $_GET['advisorname'];
+        $newadvisoremail = $_GET['advisoremail'];
+        $category = $_GET['category'];
+        $designation = $_GET['designation'];
+        $majorrequirement = $_GET['majorrequirement'];
+        $yearrequirement = $_GET['yearrequirement'];
+        $departmentrequirement = $_GET['departmentrequirement'];
+        $description = $_GET['description'];
+        $numofstudent = $_GET['numofstudent'];
+
+        $sql = "INSERT INTO PROJECT VALUES ('$newprojectname', '$numofstudent','$description','$newadvisor','$newadvisoremail','$designation')";
+        if (mysqli_query($db, $sql)) {
+            foreach ($category as $ca) {
+                $sqlca = "INSERT INTO PROJECT_CATEGORY VALUES ('$newprojectname','$ca')";
+                mysqli_query($db, $sqlca);
+            }
+            $sqlmajor = "INSERT INTO PROJECT_REQUIREMENT VALUES ('$newprojectname','$majorrequirement')";
+            $sqlyear = "INSERT INTO PROJECT_REQUIREMENT VALUES ('$newprojectname','$yearrequirement')";
+            $sqldep = "INSERT INTO PROJECT_REQUIREMENT VALUES ('$newprojectname','$departmentrequirement')";
+            mysqli_query($db, $sqlmajor);
+            mysqli_query($db, $sqlyear);
+            mysqli_query($db, $sqldep);
+            echo "<script type='text/javascript'>
+                    alert('Record Added Successfully');
+                  </script>";
+        } else {
+            $nameAlreadyExist = TRUE;
+        }
+        $db->close();
+    }
+}
+?>
+
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -12,6 +55,7 @@
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
 
     <script src="lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
     <link rel="SHORTCUT ICON" href="images/GTYellowJacketSmall.png">
     
 
@@ -20,23 +64,6 @@
 
 </head>
 <body class=" theme-blue">
-
-
-    <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -47,15 +74,16 @@
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
             color: #fff;
         }
+        #popup {
+            visibility: hidden;
+            background-color: red;
+            position: absolute;
+            top: 10px;
+            z-index: 100;
+            height: 100px;
+            width: 300px
+        }
     </style>
-
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
@@ -97,7 +125,7 @@
                 <li><a href="./">Security</a></li>
                 <li><a tabindex="-1" href="./">Payments</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                <li><a tabindex="-1" href="login.html">Logout</a></li>
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
@@ -121,8 +149,8 @@
             <li><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
             <li><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
     </ul></li><li class="visible-xs"><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li><li class="visible-xs"><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li><li class="visible-xs"><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-legal"></i> Legal<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="legal-menu nav nav-list collapse">
             <li><a href="privacy-policy.html"><span class="fa fa-caret-right"></span> Privacy Policy</a></li>
@@ -164,8 +192,8 @@
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
         <li><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li>
 
@@ -192,29 +220,39 @@
             
         <div class="row">
             <div class="col-xs-12 col-sm-10">
-                 <form class="form-horizontal" role="form">
+                 <form class="form-horizontal" role="form" method="get">
                     <div class="form-group">
                         <label for="projectname" class="col-sm-3 control-label">Project Name</label>         
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="projectname" placeholder="Enter Project Name" oninput="check_if_can_submit()">
+                            <input type="text" name="projectname" class="form-control" id="projectname" placeholder="Enter Project Name" oninput="check_if_can_submit()">
+                            <?php
+                            if ($nameAlreadyExist === TRUE) {
+                                echo '<p class="text-danger" id="insert-fail">
+                                <strong>Project name already exists.</strong>
+                            </p>';
+                                echo '<script>
+                                           window.setTimeout("hideMsg()", 6000);
+                                      </script>';
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="advisorname" class="col-sm-3 control-label">Adivsor</label>
+                        <label for="advisorname" class="col-sm-3 control-label">Advisor</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="adivsorname" placeholder="Enter Advisor's Name" oninput="check_if_can_submit()">
+                            <input type="text" name="advisorname" class="form-control" id="advisorname" placeholder="Enter Advisor's Name" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      <div class="form-group">
                         <label for="advisoremail" class="col-sm-3 control-label">Adivsor Email</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" id="adivsoremail" placeholder="email@gatech.edu" oninput="check_if_can_submit()">
+                            <input type="email" name="advisoremail" class="form-control" id="advisorname" placeholder="email@gatech.edu" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      <div class="form-group">
                         <label for="category" class="col-sm-3 control-label">Category</label>
                         <div class="col-sm-9">
-                            <select multiple class="form-control category" onchange="check_if_can_submit()">
+                            <select multiple name="category[]" class="form-control category" onchange="check_if_can_submit()">
                                 <option value="Adaptive Learning" >Adaptive Learning</option>
                                 <option value="Crowd-Sourced">Crowd-Sourced</option>
                                 <option value="Computing for Good">Computing for Good</option>
@@ -232,21 +270,21 @@
                         <label for="designation" class="col-sm-3 control-label">Designation</label>
                         <div class="col-sm-4">
                             <select name="designation" id="designation" class="form-control">
-                                <option value="sc">Sustainable Communities</option>
-                                <option value="community">Community</option>
+                                <option value="Sustainable Communities">Sustainable Communities</option>
+                                <option value="Community">Community</option>
                             </select>
                         </div>
                          <label for="numofstudent" class="col-sm-3 control-label">Estimated # of Students</label>
                         <div class="col-sm-2">
-                            <input type="numofstudent" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
+                            <input name="numofstudent" type="number" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      
                     <div class="form-group">
-                        <label for="majorrequriement" class="col-sm-3 control-label">Major Requirement</label>
+                        <label for="majorrequirement" class="col-sm-3 control-label">Major Requirement</label>
                         <div class="col-sm-9">
-                            <select name="majorrequriement" id="majorrequriement" class="form-control">
-                                <option value="norequirement">No Requirement</option>
+                            <select name="majorrequirement" id="majorrequirement" class="form-control">
+                                <option value="NoMajRequirement">No Requirement</option>
                                 <option value="freshman">Freshman</option>
                                 <option value="sophomore">Sophomore</option>
                                 <option value="junior">Junior</option>
@@ -256,10 +294,10 @@
                     </div>
                      
                     <div class="form-group">
-                        <label for="yearrequriement" class="col-sm-3 control-label">Year Requirement</label>
+                        <label for="yearrequirement" class="col-sm-3 control-label">Year Requirement</label>
                         <div class="col-sm-9">
-                            <select name="yearrequriement" id="yearrequriement" class="form-control">
-                                <option value="norequirement">No Requirement</option>
+                            <select name="yearrequirement" id="yearrequirement" class="form-control">
+                                <option value="NoYearRequirement">No Requirement</option>
                                 <option value="freshman">Only Freshman Students</option>
                                 <option value="sophomore">Only Sophomore Students</option>
                                 <option value="junior">Only Junior Students</option>
@@ -269,30 +307,46 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="departmentrequriement" class="col-sm-3 control-label">Department Requirement</label>
+                        <label for="departmentrequirement" class="col-sm-3 control-label">Department Requirement</label>
                         <div class="col-sm-9">
-                            <select name="departmentrequriement" id="departmentrequriement" class="form-control">
-                                <option value="norequirement">No Requirement</option>
-                                <option value="freshman">Freshman</option>
-                                <option value="sophomore">Sophomore</option>
-                                <option value="junior">Junior</option>
-                                <option value="senior">Senior</option>
+                            <select name="departmentrequirement" id="departmentrequirement" class="form-control">
+                                <option value="NoDepRequirement">No Requirement</option>
+                                <option value="cs">College of Sciences</option>
+                                <option value="cc">College of Computing</option>
+                                <option value="ce">Computer Engineering (BS/MS)</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="feedback" class="col-sm-3 control-label">Description</label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" id="description" rows="12" oninput="check_if_can_submit()"></textarea>
+                            <textarea name="description" class="form-control" id="description" rows="12" oninput="check_if_can_submit()"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-10">
-                            <button type="submit" class="btn btn-primary" href="index.html">Back</button>
-                            <button type="submit" class="btn btn-primary submit-report" disabled="disabled">Submit</button>
+                            <button class="btn btn-primary" href="index.html">Back</button>
+                            <button type="submit" class="btn btn-primary submit-report" disabled="disabled" name="submit">Submit</button>
                         </div>
                     </div>
                 </form>
+
+<!--                <div class="modal large fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+<!--                    <div class="modal-dialog">-->
+<!--                        <div class="modal-content">-->
+<!--                            <div class="modal-header">-->
+<!--                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+<!--                                <h3 id="myModalLabel">Confirmation</h3>-->
+<!--                            </div>-->
+<!--                            <div class="modal-body">-->
+<!--                                <p class="text"><i class="fa fa-thumbs-up modal-icon"></i><span id="info">Record Added Successfully!</span></p>-->
+<!--                            </div>-->
+<!--                            <div class="modal-footer">-->
+<!--                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Confirm</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </div>
 </div>
@@ -307,9 +361,6 @@
             </footer>
         </div>
     </div>
-
-
-    <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/d3.v3.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -320,10 +371,10 @@
             if ($("#projectname").val() == "") {
                 emptyNum++;
             }
-            if ($("#adivsorname").val() == "") {
+            if ($("#advisorname").val() == "") {
                 emptyNum++;
             }
-            if ($("#adivsoremail").val() == "") {
+            if ($("#advisorname").val() == "") {
                 emptyNum++;
             }
             if ($("#numofstudent").val() == "") {
@@ -350,7 +401,9 @@
                     .attr("disabled", null);
             }
         }
-
+        function hideMsg() {
+            d3.select("#insert-fail").remove();
+        }
 
     </script>
 

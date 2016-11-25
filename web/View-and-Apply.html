@@ -28,21 +28,6 @@
     
 <body class=" theme-blue">
 
-<script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -55,13 +40,6 @@
         }
     </style>
 
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -109,7 +87,7 @@
                 <li><a href="./">Security</a></li>
                 <li><a tabindex="-1" href="./">Payments</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                <li><a tabindex="-1" href="login.html">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -143,8 +121,8 @@
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
         <li><ul class="accounts-menu nav nav-list collapse">
-            <li ><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li ><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li ><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li ><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li ><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li>
 
@@ -185,7 +163,7 @@
             <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
                 <td id="project_name">{{application.name}}</td>
                 <td>{{application.advisor}}</td>
-                <td><a href="#" value={{application.name}} onclick="test(this)">View Detail</a></td>
+                <td><a href="#" onclick="test(this)">View Detail</a></td>
             </tr>
         </tbody>
         </table>
@@ -209,28 +187,9 @@
             angular.module('orderByExample2', [])
                 .controller('ExampleController', ['$scope', function($scope) {
                     var applications = [
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'},
-                        {number: 1, name: 'Excel Current Events', advisor: 'Peter'},
-                        {number: 2, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 3, name: 'Excel Peer Support Network', advisor: 'Peter'},
+                        {number: 1, name: 'Know Your Water', advisor: 'Peter'},
+                        {number: 2, name: 'Charms', advisor: 'Peter'},
+                        {number: 3, name: 'Flying', advisor: 'Peter'},
                         {number: 4, name: 'Database Update', advisor: 'Peter'}
                     ];
                     $scope.propertyName = 'name';
@@ -248,7 +207,7 @@
             obj.closest('tr').find('td').each(function() {
                 arrayContent.push($(this).text());
             })
-            alert(arrayContent[0]);
+            document.location.href = "project-detail.php?name=" + arrayContent[0];
         }
     </script>
 

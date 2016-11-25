@@ -1,3 +1,21 @@
+<?php
+    include "dbinfo.php";
+    $projectname = $_REQUEST['name'];
+    $sql1 = "SELECT * FROM PROJECT WHERE PName = '$projectname'";
+    $sql2 = "SELECT CaName FROM PROJECT_CATEGORY WHERE PName = '$projectname'";
+    $sql3 = "SELECT PRequirement FROM PROJECT_REQUIREMENT WHERE PName = '$projectname'";
+    $result1 = $db->query($sql1);
+    $category = $db->query($sql2);
+    $requirement = $db->query($sql3);
+    $db->close();
+
+    $row=mysqli_fetch_array($result1,MYSQLI_ASSOC);
+    $numofstudent = $row['EstimatedNoOfStudents'];
+    $description = $row['Description'];
+    $advisor = $row['AName'];
+    $advisoremail = $row['AEmail'];
+    $designation = $row['DesName'];
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -23,21 +41,6 @@
 <body class=" theme-blue">
 
 
-    <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -50,13 +53,6 @@
         }
     </style>
 
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
@@ -98,7 +94,7 @@
                 <li><a href="./">Security</a></li>
                 <li><a tabindex="-1" href="./">Payments</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
+                <li><a tabindex="-1" href="login.html">Logout</a></li>
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
@@ -122,8 +118,8 @@
             <li><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
             <li><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
     </ul></li><li class="visible-xs"><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li><li class="visible-xs"><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li><li class="visible-xs"><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-legal"></i> Legal<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="legal-menu nav nav-list collapse">
             <li><a href="privacy-policy.html"><span class="fa fa-caret-right"></span> Privacy Policy</a></li>
@@ -165,8 +161,8 @@
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
         <li><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li>
 
@@ -186,7 +182,7 @@
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">Know Your Water</h1>
+            <h1 class="page-title"><?php echo $projectname; ?></h1>
             
         </div>
         <div class="main-content">
@@ -195,15 +191,20 @@
     <div class="col-sm-9 main-content">
         <h3>Advisor</h3>
         <p>
-            Neha Kumar
-            <a class="btn btn-info pull-right" href="mailto:neha.kumar@cc.gatech.edu" target="_top">Send Mail</a>
+            <?php echo $advisor; ?>
+            <?php
+                $mail = "mailto:".$advisoremail;
+                echo
+                    '<a class="btn btn-info pull-right" target="_top" href="' . $mail . '">Send Mail</a>';
+            ?>
+<!--            <a class="btn btn-info pull-right" href="mailto:neha.kumar@cc.gatech.edu" target="_top">Send Mail</a>-->
         </p>
 
         <h3>Description</h3>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque fringilla varius adipiscing. Nam scelerisque hendrerit turpis ac bibendum. Sed leo elit, dictum vitae scelerisque a, hendrerit ut eros. Morbi et ligula enim, vel tempus eros. Nam posuere, eros at elementum auctor, diam metus gravida ligula, non sollicitudin lorem lorem in dolor. Nullam in consequat diam. Nam imperdiet orci eu velit aliquet id cursus ipsum ornare. Phasellus interdum varius augue, vel viverra nibh varius suscipit. Cras molestie sapien nec tellus feugiat lacinia. Nullam arcu ante, elementum vitae tincidunt quis, rhoncus sed libero. Nunc lacinia mauris diam, in convallis erat.
+            <?php echo $description; ?>
         </p>
-        <a class="btn btn-primary pull-right" href="#confirme" data-toggle="modal" onclick="applyThisProject()">Apply</a>
+        <a class="btn btn-primary pull-right" href="#confirm" data-toggle="modal" onclick="applyThisProject()">Apply</a>
         <a class="btn btn-primary pull-right" href="/web/View-and-Apply.html" target="_top" style="margin-right: 10px">Cancel</a>
     </div>
 
@@ -211,21 +212,37 @@
         <div class="widget">
             <h3>Estimated Number of Students</h3>
             <div class="widget-body number">
-                <a><span class="large label tag label-danger">40</span></a>
+                <a><span class="large label tag label-danger"><?php echo $numofstudent; ?></span></a>
             </div>
         </div>
         <div class="widget">
             <h3>Requirements</h3>
             <div class="widget-body requirement">
-                <a><span class="large label tag label-warning">CS Students</span></a>
-                <a><span class="large label tag label-warning">Senior</span></a>
+                <?php
+                    while($rs = $requirement->fetch_array(MYSQLI_ASSOC)) {
+                        $require = $rs['PRequirement'];
+                        echo "
+                                <a><span class=\"large label tag label-warning\">$require</span></a>
+                             ";
+                    }
+                ?>
+<!--                <a><span class="large label tag label-warning">CS Students</span></a>-->
+<!--                <a><span class="large label tag label-warning">Senior</span></a>-->
             </div>
         </div>
         <div class="widget">
             <h3>Categories</h3>
             <div class="widget-body category">
-                <a ><span class="large label tag label-primary">Sustainable Communities</span></a>
-                <a><span class="large label tag label-primary">Crowd-Sourced</span></a>
+                <?php
+                    while($rs = $category->fetch_array(MYSQLI_ASSOC)) {
+                        $ca = $rs['CaName'];
+                        echo "
+                                <a ><span class=\"large label tag label-primary\">$ca</span></a>
+                             ";
+                }
+                ?>
+<!--                <a ><span class="large label tag label-primary">Sustainable Communities</span></a>-->
+<!--                <a><span class="large label tag label-primary">Crowd-Sourced</span></a>-->
                 <!--<a><span class="large label tag label-primary">Computing for Good</span></a>
                 <a><span class="large label tag label-primary">Doing Good for Your Neighborhood</span></a>
                 <a><span class="large label tag label-primary">Reciprocal Teaching and Learning</span></a>
@@ -238,12 +255,12 @@
         <div class="widget">
             <h3>Designation</h3>
             <div class="widget-body designation">
-                <a><span class="large label tag label-primary">Sustainable Community</span></a>
+                <a><span class="large label tag label-primary"><?php echo $designation; ?></span></a>
             </div>
         </div>
     </div>
     
-    <div class="modal small fade" id="confirme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal large fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
