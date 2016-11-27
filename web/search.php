@@ -162,7 +162,7 @@ if (isset($_GET['filter'])) {
     <li><ul class="dashboard-menu nav nav-list collapse">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li ><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li>
@@ -175,7 +175,7 @@ if (isset($_GET['filter'])) {
     </li>
         <li><ul class="project-menu nav nav-list collapse in">
                 <li class="visible-xs visible-sm"><a href="#">Project</a></li>
-            <li class="active"><a href="View-and-Apply.html"><span class="fa fa-caret-right"></span> Project List</a></li>
+            <li class="active"><a href="View-and-Apply.php"><span class="fa fa-caret-right"></span> Project List</a></li>
     </ul></li>
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
@@ -351,16 +351,6 @@ if (isset($_GET['filter'])) {
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/d3.v3.min.js"></script>
     <script type="text/javascript">
-        (function(angular) {
-            'use strict';
-            angular.module('orderByExample2', [])
-                .controller('ExampleController', ['$scope', function($scope) {
-                    var applications = $outp;
-                    $scope.propertyName = 'name';
-                    $scope.applications = applications;
-            }]);
-        })(window.angular);
-
         $(document).ready(function() {
             $('#application_table').DataTable();
         });

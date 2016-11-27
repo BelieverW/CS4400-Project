@@ -1,20 +1,84 @@
+<?php session_start() ?>
 <?php
     include "dbinfo.php";
-    $projectname = $_REQUEST['name'];
-    $sql1 = "SELECT * FROM PROJECT WHERE PName = '$projectname'";
-    $sql2 = "SELECT CaName FROM PROJECT_CATEGORY WHERE PName = '$projectname'";
-    $sql3 = "SELECT PRequirement FROM PROJECT_REQUIREMENT WHERE PName = '$projectname'";
-    $result1 = $db->query($sql1);
-    $category = $db->query($sql2);
-    $requirement = $db->query($sql3);
-    $db->close();
+    include "checkuser.php";
 
-    $row=mysqli_fetch_array($result1,MYSQLI_ASSOC);
-    $numofstudent = $row['EstimatedNoOfStudents'];
-    $description = $row['Description'];
-    $advisor = $row['AName'];
-    $advisoremail = $row['AEmail'];
-    $designation = $row['DesName'];
+    if(isset($_GET['apply'])) {
+        if (false) {
+            echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal large fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-thumbs-up modal-icon\"></i><span id=\"info\">You have applied for this project successfully!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        } else {
+            echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal large fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-warning modal-icon\"></i><span id=\"info\">You don't meet the requirement. You CANNOT apply this project!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        }
+        $_REQUEST['name'] = $_SESSION['project_name'];
+    }
+
+    if(!isset($_REQUEST['name'])) {
+        header("location: 404.html");
+    } else {
+        $_SESSION['project_name'] = $_REQUEST['name'];
+        $username = $_SESSION['login_user'];
+        $projectname = $_REQUEST['name'];
+        $sql1 = "SELECT * FROM PROJECT WHERE PName = '$projectname'";
+        $sql2 = "SELECT CaName FROM PROJECT_CATEGORY WHERE PName = '$projectname'";
+        $sql3 = "SELECT PRequirement FROM PROJECT_REQUIREMENT WHERE PName = '$projectname'";
+        $result1 = $db->query($sql1);
+        $category = $db->query($sql2);
+        $requirement = $db->query($sql3);
+        $db->close();
+
+        $row=mysqli_fetch_array($result1,MYSQLI_ASSOC);
+        $numofstudent = $row['EstimatedNoOfStudents'];
+        $description = $row['Description'];
+        $advisor = $row['AName'];
+        $advisoremail = $row['AEmail'];
+        $designation = $row['DesName'];
+    }
 ?>
 <!doctype html>
 <html lang="en"><head>
@@ -82,25 +146,25 @@
           <ul id="main-menu" class="nav navbar-nav navbar-right">
             <li class="dropdown hidden-xs">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
+                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> <?php echo $username;?>
                     <i class="fa fa-caret-down"></i>
                 </a>
 
               <ul class="dropdown-menu">
-                <li><a href="./">My Account</a></li>
+                <li><a href="user.php">My Profile</a></li>
                 <li class="divider"></li>
-                <li class="dropdown-header">Admin Panel</li>
+                <li class="dropdown-header" style="text-transform: capitalize"><?php echo $_SESSION['user_type']?> Panel</li>
                 <li><a href="./">Users</a></li>
                 <li><a href="./">Security</a></li>
                 <li><a tabindex="-1" href="./">Payments</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="login.html">Logout</a></li>
+                <li><a tabindex="-1" href="logout.php">Logout</a></li>
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li><li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right" data-original-title="" title="" class="visible-xs"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="premium-menu nav nav-list collapse in">
@@ -137,7 +201,7 @@
     <li><ul class="dashboard-menu nav nav-list collapse">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li>
@@ -204,8 +268,11 @@
         <p>
             <?php echo $description; ?>
         </p>
-        <a class="btn btn-primary pull-right" href="#confirm" data-toggle="modal" onclick="applyThisProject()">Apply</a>
-        <a class="btn btn-primary pull-right" href="/web/View-and-Apply.html" target="_top" style="margin-right: 10px">Cancel</a>
+<!--        href="#confirm" data-toggle="modal"-->
+        <form role="form" method="get">
+            <button class="btn btn-primary pull-right" type="submit" name="apply">Apply</button>
+            <a class="btn btn-primary pull-right" href="/web/View-and-Apply.php" target="_top" style="margin-right: 10px">Cancel</a>
+        </form>
     </div>
 
     <div class="col-sm-3 sidebar">
@@ -256,23 +323,6 @@
             <h3>Designation</h3>
             <div class="widget-body designation">
                 <a><span class="large label tag label-primary"><?php echo $designation; ?></span></a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="modal large fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="myModalLabel">Confirmation</h3>
-                </div>
-                <div class="modal-body">
-                    <p class="text"><i class="fa fa-thumbs-up modal-icon"></i><span id="info">You have applied for this project successfully!</span></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Confirm</button>
-                </div>
             </div>
         </div>
     </div>

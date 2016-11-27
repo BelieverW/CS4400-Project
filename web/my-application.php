@@ -1,3 +1,15 @@
+<?php session_start() ?>
+<?php
+    include "dbinfo.php";
+    include "checkuser.php";
+
+    $username = $_SESSION['login_user'];
+    $usertype = $_SESSION['user_type'];
+    $sql1 = "SELECT Date, PName, Status FROM APPLY, USER WHERE SName = UName and UName = '$username'";
+    $result1 = $db->query($sql1);
+    $db->close();
+?>
+
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -27,23 +39,6 @@
 </head>
 <body class=" theme-blue">
 
-    <!-- Demo page code -->
-
-    <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -55,14 +50,6 @@
             color: #fff;
         }
     </style>
-
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -127,14 +114,14 @@
     <li><ul class="dashboard-menu nav nav-list collapse in">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li class="active"><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li ><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li>
 
     <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
         <li><ul class="premium-menu nav nav-list collapse">
-                <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
+                <span class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
             <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
             <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
             <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
@@ -179,28 +166,27 @@
 
         </div>
         <div class="main-content">
-<div ng-app="orderByExample2">
-<div ng-controller="ExampleController">
-<table id="my_applications" class="table table-striped table-bordered" cellspacing="0" width="100%">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Date</th>
-      <th>Project Name</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-      <td>{{application.number}}</td>
-      <td>{{application.date}}</td>
-      <td>{{application.project_name}}</td>
-      <td>{{application.status}}</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
+            <table id="my_applications" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Project Name</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                while($rs = $result1->fetch_array(MYSQLI_ASSOC)) {
+                    $date = $rs['Date'];
+                    $projectname = $rs['PName'];
+                    $status = $rs['Status'];
+                    echo "<tr><td id='$projectname'>$projectname</td><td id='date'>$date</td><td id='status'>$status</td></tr>";
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+
 
 
 <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -233,27 +219,6 @@
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script type="text/javascript">
-        $("[rel=tooltip]").tooltip();
-        $(function() {
-            $('.demo-cancel-click').click(function(){return false;});
-        });
-        (function(angular) {
-        'use strict';
-        angular.module('orderByExample2', [])
-            .controller('ExampleController', ['$scope', function($scope) {
-            var applications = [
-                {number: 1, date: '16/08/30',  project_name: 'Excel Current Events',  status: 'Approved'},
-                {number: 2, date: '16/09/02',  project_name: 'Know Your Water',  status: 'Pending'},
-                {number: 3, date: '16/09/04',  project_name: 'Excel Peer Support Network',  status: 'Rejected'},
-                {number: 4, date: '15/10/30',  project_name: 'Database Update',  status: 'Approved'}
-            ];
-
-            $scope.propertyName = 'number';
-        
-            $scope.applications = applications;
-        }]);
-        })(window.angular);
-        
         $(document).ready(function() {
             $('#my_applications').DataTable();
         });
