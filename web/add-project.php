@@ -30,9 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             mysqli_query($db, $sqlmajor);
             mysqli_query($db, $sqlyear);
             mysqli_query($db, $sqldep);
-            echo "<script type='text/javascript'>
-                    alert('Record Added Successfully');
-                  </script>";
+            echo "
+                   <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                   <script>
+                        $(document).ready(function(){
+                            $('#myAdvert').modal('show');
+                        })
+                   </script>";
         } else {
             $nameAlreadyExist = TRUE;
         }
@@ -131,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li><li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right" data-original-title="" title="" class="visible-xs"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="premium-menu nav nav-list collapse in">
@@ -168,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <li><ul class="dashboard-menu nav nav-list collapse">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li>
@@ -331,22 +335,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </div>
                 </form>
 
-<!--                <div class="modal large fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-<!--                    <div class="modal-dialog">-->
-<!--                        <div class="modal-content">-->
-<!--                            <div class="modal-header">-->
-<!--                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
-<!--                                <h3 id="myModalLabel">Confirmation</h3>-->
-<!--                            </div>-->
-<!--                            <div class="modal-body">-->
-<!--                                <p class="text"><i class="fa fa-thumbs-up modal-icon"></i><span id="info">Record Added Successfully!</span></p>-->
-<!--                            </div>-->
-<!--                            <div class="modal-footer">-->
-<!--                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Confirm</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="modal large fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">Confirmation</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text"><i class="fa fa-thumbs-up modal-icon"></i><span id="info">Record Added Successfully!</span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 </div>

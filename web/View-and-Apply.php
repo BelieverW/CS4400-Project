@@ -1,3 +1,13 @@
+<?php session_start() ?>
+<?php
+    include "dbinfo.php";
+    include "checkuser.php";
+
+    $sql1 = "SELECT * FROM PROJECT";
+    $result1 = $db->query($sql1);
+    $db->close();
+?>
+
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -103,7 +113,7 @@
     <li><ul class="dashboard-menu nav nav-list collapse">
             <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li ><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li>
@@ -115,8 +125,8 @@
         </a>
     </li>
         <li><ul class="project-menu nav nav-list collapse in">
-                <li class="visible-xs visible-sm"><a href="#">Project</a></span>
-            <li class="active"><a href="View-and-Apply.html"><span class="fa fa-caret-right"></span> Project List</a></li>
+                <span class="visible-xs visible-sm"><a href="#">Project</a></span>
+            <li class="active"><a href="View-and-Apply.php"><span class="fa fa-caret-right"></span> Project List</a></li>
     </ul></li>
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
@@ -156,15 +166,19 @@
             <tr>
                 <th>Project Name</th>
                 <th>Advisor</th>
-                <th>Apply</th>
+                <th>Designation</th>
+                <th>Detail</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-                <td id="project_name">{{application.name}}</td>
-                <td>{{application.advisor}}</td>
-                <td><a href="#" onclick="test(this)">View Detail</a></td>
-            </tr>
+            <?php
+                while($rs = $result1->fetch_array(MYSQLI_ASSOC)) {
+                    $advisor = $rs['AName'];
+                    $projectname = $rs['PName'];
+                    $designation = $rs['DesName'];
+                    echo "<tr><td id='project_name'>$projectname</td><td>$advisor</td><td>$designation</td><td><a href='#' onclick='test(this)'>View Detail</a></td></tr>";
+                }
+            ?>
         </tbody>
         </table>
             </div>
