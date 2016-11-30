@@ -1,3 +1,135 @@
+<?php session_start() ?>
+<?php
+    include "dbinfo.php";
+    $applications = $db->query("SELECT PName, UName, MName, Year, Status FROM APPLY, USER WHERE UName = SName");
+    if (isset($_GET['accept'])) {
+        if (!empty($_GET['check_list'])) {
+            foreach ($_GET['check_list'] as $item) {
+                $value = explode(',', $item);
+                $applicant = $value[0];
+                $appliedProject = $value[1];
+                $db->query("UPDATE APPLY
+                            SET Status = 'Approved'
+                            WHERE SName = '$applicant' and PName = '$appliedProject'");
+            }
+            echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-thumbs-up modal-icon\"></i><span id=\"info\">You accepted new application(s) successfully!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <a class=\"btn btn-default\" href='admin-view-application.php''>Confirm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        } else {
+            echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-warning modal-icon\"></i><span id=\"info\">You don't choose anything!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        }
+
+    }
+
+
+    if (isset($_GET['reject'])) {
+        if (!empty($_GET['check_list'])) {
+            foreach ($_GET['check_list'] as $item) {
+                $value = explode(',', $item);
+                $applicant = $value[0];
+                $appliedProject = $value[1];
+                $db->query("UPDATE APPLY
+                            SET Status = 'Rejected'
+                            WHERE SName = '$applicant' and PName = '$appliedProject'");
+            }
+            echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-thumbs-up modal-icon\"></i><span id=\"info\">You rejected new application(s) successfully!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <a class=\"btn btn-default\" href='admin-view-application.php''>Confirm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        } else {
+            echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-warning modal-icon\"></i><span id=\"info\">You don't choose anything!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        }
+
+    }
+    $db->close();
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -8,39 +140,25 @@
     <meta name="author" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
 
     <script src="lib/jquery-1.11.1.min.js" type="text/javascript"></script>
     <link rel="SHORTCUT ICON" href="images/GTYellowJacketSmall.png">
-    
+
 
     <link rel="stylesheet" type="text/css" href="stylesheets/theme.css">
-    
 
-    <!-- Latest compiled and minified JavaScript 
+
+    <!-- Latest compiled and minified JavaScript -->
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>-->
+    <!-- Latest compiled and minified Locales -->
+    <script src="//cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 </head>
 <body class=" theme-blue">
 
-    <!-- Demo page code -->
-
-    <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -52,14 +170,6 @@
             color: #fff;
         }
     </style>
-
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -101,7 +211,7 @@
                 </a>
 
               <ul class="dropdown-menu">
-                <li><a href="./">My Account</a></li>
+                <li><a href="#">My Account</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Admin Panel</li>
                 <li><a href="./">Users</a></li>
@@ -131,7 +241,7 @@
 
     <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
         <li><ul class="premium-menu nav nav-list collapse">
-                <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
+                <span class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
             <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
             <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
             <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
@@ -177,12 +287,11 @@
 
         </div>
         <div class="main-content">
-<div ng-app="orderByExample2">
-<div ng-controller="ExampleController">
-<table id="my_applications" class="table table-striped table-bordered" cellspacing="0" width="100%">
+<form role="form" method="get">
+<table id="applications" class="table table-striped table-bordered" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th>#</th>
+      <th></th>
       <th>Project Name</th>
 	  <th>Applicant Major</th>
 	  <th>Applicant Year</th>
@@ -190,23 +299,30 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-      <td><input type="radio" href="#" name="radio_button" value={{application.project_name}} onclick="test(this)"></td>
-      <td>{{application.project_name}}</td>
-	  <td>{{application.major}}</td>
-	  <td>{{application.year}}</td>
-      <td>{{application.status}}</td>
-    </tr>
+    <?php
+        while($rs = $applications->fetch_array(MYSQLI_ASSOC)) {
+            $projectname = $rs['PName'];
+            $applicantName = $rs['UName'];
+            $major = $rs['MName'];
+            $year = $rs['Year'];
+            $status = $rs['Status'];
+            if ($status == "Pending") {
+               echo "<tr><td><input type='checkbox' name='check_list[]' value='$applicantName,$projectname'></td><td>$projectname</td><td>$major</td><td>$year</td><td>$status</td></tr>";
+                //echo "<tr><td><input type=\"checkbox\" name=\"check_list[]\" value=\"value 5\"></td><td>$projectname</td><td>$major</td><td>$year</td><td>$status</td></tr>";
+            } else {
+                echo "<tr><td></td><td>$projectname</td><td>$major</td><td>$year</td><td>$status</td></tr>";
+            }
+        }
+    ?>
   </tbody>
 </table>
 <div class="row">
 	<div class="col-sm-12">
-		<a class="btn btn-primary pull-right" id="rejectbutton" href="#rejectconfirm"  style="margin-right: 10px">Reject</a>
-		<a class="btn btn-primary pull-right" id="acceptbutton" href="#acceptconfirm"  style="margin-right: 10px">Accept</a>
+		<button type="submit" class="btn btn-primary pull-right" id="rejectbutton" name="reject"  style="margin-right: 10px">Reject</button>
+		<button type="submit" class="btn btn-primary pull-right" id="acceptbutton" name="accept"  style="margin-right: 10px">Accept</button>
 	</div>
 </div>
-</div>
-</div>
+</form>
 
 <div class="modal small fade" id="acceptconfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -256,55 +372,11 @@
     <script src="lib/angular/angular.min.js"></script>
 	<script src="lib/d3.v3.min.js"></script>
     <script type="text/javascript">
-	
-        $("[rel=tooltip]").tooltip();
-        $(function() {
-            $('.demo-cancel-click').click(function(){return false;});
-        });
-		
-        (function(angular) {
-        'use strict';
-        angular.module('orderByExample2', [])
-            .controller('ExampleController', ['$scope', function($scope) {
-            var applications = [
-                {number: 1, project_name: 'Excel Current Events', major: 'ECE', year: 'freshman', status: 'Pending'},
-                {number: 2, project_name: 'Know Your Water', major: 'CS', year: 'junior', status: 'Pending'},
-                {number: 3, project_name: 'Excel Peer Support Network', major: 'MATH', year: 'freshman', status: 'Rejected'},
-                {number: 4, project_name: 'Database Update', major: 'HISTORY', year: 'freshman', status: 'Approved'}
-            ];
 
-            $scope.propertyName = 'number';
-        
-            $scope.applications = applications;
-        }]);
-        })(window.angular);
-		
-		
-		$("#acceptbutton").click(function () {
-			   alert("You have accepted this project sucessfully!");
-		   });
-		   
-        function reject() {
-			d3.select(".modal-body")
-				.select("i")
-				.classed("fa-thumbs-up", true)
-				.classed("fa-warning", false);
-			document.getElementById("info").innerHTML = "You have rejected this project successfully!";
-			d3.select(".modal-footer")
-				.select("button")
-				.on("click", function() {
-					alert("test");
-				});
-            
-        }
-		function test(thisSection) {
-            var obj = $(thisSection);
-            var arrayContent = [];
-            obj.closest('tr').find('td').each(function() {
-                arrayContent.push($(this).text());
-            })
-            alert(arrayContent[1]);
-        }
+        $(document).ready(function() {
+            $('#applications').DataTable();
+        });
+
        
     </script>
     
