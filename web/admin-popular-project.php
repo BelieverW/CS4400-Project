@@ -1,3 +1,13 @@
+<?php session_start() ?>
+<?php
+    include "dbinfo.php";
+    $popularProject = $db->query("SELECT PName, COUNT(*) AS NUM
+                                  FROM APPLY
+                                  GROUP BY PName
+                                  ORDER BY COUNT(*) DESC
+                                  LIMIT 10");
+    $db->close();
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -137,7 +147,7 @@
         </a>
     </li>
         <li><ul class="project-menu nav nav-list collapse in">
-                <li class="visible-xs visible-sm"><a href="#">Project</a></span>
+                <span class="visible-xs visible-sm"><a href="#">Project</a></span>
             <li class="active"><a href="View-and-Apply.html"><span class="fa fa-caret-right"></span> Project List</a></li>
     </ul></li>
 
@@ -170,9 +180,7 @@
         </ul>
 
         </div>
-        
-        <div ng-app="orderByExample2">
-        <div ng-controller="ExampleController">
+
         <table id="application_table" class="table table-striped table-bordered" cellspacing="0" width="100%">       
         <thead>
             <tr>
@@ -181,14 +189,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-                <td id="project_name">{{application.name}}</td>
-                <td>{{application.applicants}}</td>
-            </tr>
+        <?php
+            while($rs = $popularProject->fetch_array(MYSQLI_ASSOC)) {
+                $name = $rs['PName'];
+                $numOfApplication = $rs['NUM'];
+                echo "<tr><td>$name</td><td>$numOfApplication</td></tr>";
+            }
+        ?>
         </tbody>
         </table>
-            </div>
-        </div>
 
 
         <footer>
@@ -202,26 +211,6 @@
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script type="text/javascript">
-        (function(angular) {
-            'use strict';
-            angular.module('orderByExample2', [])
-                .controller('ExampleController', ['$scope', function($scope) {
-                    var applications = [
-                        {number: 1, name: 'Excel Current Events', applicants: 111},
-                        {number: 2, name: 'Know Your Water', applicants: 99},
-                        {number: 3, name: 'Excel Peer Support Network', applicants: 87},
-                        {number: 4, name: 'Database Update', applicants: 78},
-                        {number: 5, name: 'Excel Current Events', applicants: 67},
-                        {number: 6, name: 'Know Your Water', applicants: 53},
-                        {number: 7, name: 'Excel Peer Support Network', applicants: 46},
-                        {number: 8, name: 'Database Update', applicants: 33},
-                        {number: 9, name: 'Excel Current Events', applicants: 22},
-                        {number: 10, name: 'Know Your Water', applicants: 11},
-                    ];
-                    $scope.propertyName = 'name';
-                    $scope.applications = applications;
-            }]);
-        })(window.angular);
         
         $(document).ready(function() {
             $('#application_table').DataTable();

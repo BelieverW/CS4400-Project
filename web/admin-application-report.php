@@ -1,3 +1,25 @@
+<?php session_start() ?>
+<?php
+    include "dbinfo.php";
+//include "checkuser.php";
+    $getApplicationRecord = $db->query("SELECT COUNT(*) AS NUM FROM APPLY")->fetch_assoc()['NUM'];
+    $approvedNum = $db->query("SELECT COUNT(*) AS NUM FROM APPLY WHERE Status = 'Approved'")->fetch_assoc()['NUM'];
+    $createView = "CREATE VIEW ACCEPT (PName,ACNumber) AS
+                    SELECT PName, COUNT(*) FROM APPLY WHERE Status = 'Approved' GROUP BY PName
+                    UNION
+                    SELECT DISTINCT PName, 0 FROM APPLY AS A1 WHERE NOT EXISTS (SELECT * FROM APPLY AS A2 WHERE A1.PName = A2.PName and A2.Status = 'Approved')";
+    $reportResult = "SELECT APPLY.PName AS NAME, COUNT(*) AS NUM, ACNumber/COUNT(*) AS RATE
+                     FROM APPLY,ACCEPT
+                     WHERE APPLY.PName = ACCEPT.PName
+                     GROUP BY APPLY.PName
+                     ORDER BY ACNumber/COUNT(*) DESC";
+    $dropView = "DROP VIEW ACCEPT";
+    $db->query($createView);
+    $result = $db->query($reportResult);
+    $db->query($dropView);
+    $db->close();
+
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -28,21 +50,6 @@
     
 <body class=" theme-blue">
 
-<script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -54,14 +61,6 @@
             color: #fff;
         }
     </style>
-
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -137,7 +136,7 @@
         </a>
     </li>
         <li><ul class="project-menu nav nav-list collapse in">
-                <li class="visible-xs visible-sm"><a href="#">Project</a></span>
+                <span class="visible-xs visible-sm"><a href="#">Project</a></span>
             <li class="active"><a href="View-and-Apply.html"><span class="fa fa-caret-right"></span> Project List</a></li>
     </ul></li>
 
@@ -170,12 +169,10 @@
         </ul>
 
         </div>
-        
-        <div ng-app="orderByExample2">
-        <div ng-controller="ExampleController">
+
 		
 		<form>
-		  <span><strong>178</strong></span> applications in total, accepted <span><strong>78</strong></span> applications<br><br>
+            <span class="label label-info"><?php echo $getApplicationRecord; ?></span> applications in total, accepted <span class="label label-success"><?php echo $approvedNum; ?></span> applications<br><br>
 		</form>
 		
 		
@@ -189,16 +186,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="application in applications | orderBy:propertyName:reverse">
-                <td id="project_name">{{application.name}}</td>
-                <td>{{application.applicants}}</td>
-				<td>{{application.rate}}</td>
-				<td>{{application.major}}</td>
-            </tr>
+            <?php
+                include "dbinfo.php";
+                while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+                    $name = $rs['NAME'];
+                    $numOfApplication = $rs['NUM'];
+                    $rate = $rs['RATE'] * 100 . '%';
+                    $topMajor = $db->query("SELECT MName
+                                            FROM APPLY, USER
+                                            WHERE PName = '$name' and SName = UName
+                                            GROUP BY MName
+                                            ORDER BY COUNT(*) DESC
+                                            LIMIT 3");
+                    $major = "";
+                    while($data = mysqli_fetch_array($topMajor)) {
+                        if ($major == "") {
+                            $major = $data['MName'];
+                        } else {
+                            $major = $major . '/' . $data['MName'];
+                        }
+                    }
+                    echo "<tr><td>$name</td><td>$numOfApplication</td><td>$rate</td><td>$major</td></tr>";
+                }
+            ?>
         </tbody>
         </table>
-            </div>
-        </div>
+
 
 
         <footer>
@@ -212,24 +225,6 @@
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script type="text/javascript">
-		
-		
-        (function(angular) {
-            'use strict';
-            angular.module('orderByExample2', [])
-                .controller('ExampleController', ['$scope', function($scope) {
-                    var applications = [
-                        {number: 1, name: 'Excel Current Events', applicants: 111, rate: '72%', major: 'CS/MATH'},
-                        {number: 2, name: 'Know Your Water', applicants: 99, rate: '72%', major: 'CS/MATH'},
-                        {number: 3, name: 'Excel Peer Support Network', applicants: 87, rate: '62%', major: 'CS/MATH'},
-                        {number: 4, name: 'Database Update', applicants: 78, rate: '52%', major: 'CS/MATH'},
-                        {number: 5, name: 'Excel Current Events', applicants: 67, rate: '42%', major: 'CS/MATH'},
-                        {number: 6, name: 'Know Your Water', applicants: 53, rate: '32%', major: 'CS/MATH'}
-                    ];
-                    $scope.propertyName = 'name';
-                    $scope.applications = applications;
-            }]);
-        })(window.angular);
         
         $(document).ready(function() {
             $('#application_table').DataTable();
