@@ -5,11 +5,47 @@ $getResultCourse = FALSE;
 $getResultProject = FALSE;
 if (isset($_GET['filter'])) {
     include "dbinfo.php";
+    $title = "%". $_GET['title'] . "%";
+    $designation = $_GET['designation'];
+    $major = $_GET['major'];
+    $year = $_GET['year'];
+    $category = "";
+    $department = "";
+
+
+    $sql1 = "SELECT CName FROM COURSE AS C WHERE CName LIKE '$title'";
+    $sql2 = "SELECT PName FROM PROJECT AS P WHERE PName LIKE '$title'";
+
+
+    if ($designation != "default") {
+        $sql1 = $sql1 . "AND DesName = '$designation'";
+        $sql2 = $sql2 . "AND DesName = '$designation'";
+    }
+
+    if ($major != 'default') {
+        $department = mysqli_fetch_array($db->query("SELECT DName FROM MAJOR WHERE MName='$major'"),MYSQLI_ASSOC)['DName'];
+        $sql2 = $sql2 . "and (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = '$major') or
+                EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = '$department') or
+                  (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoMajRequirement') and
+                    EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoDepRequirement')))";
+    }
+    if ($year != "default") {
+        $sql2 = $sql2 . "and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = '$year' or PRequirement = 'NoYearRequirement'))";
+    }
+
+    if(isset($_GET['category'])) {
+        $category = $_GET['category'];
+        foreach($category as $ca) {
+            $sql1 = $sql1 . "and EXISTS (SELECT * FROM COURSE_CATEGORY AS CC WHERE C.CNumber = CC.CNumber and CaName = '$ca')";
+            $sql2 = $sql2 . "and EXISTS (SELECT * FROM PROJECT_CATEGORY AS C WHERE P.PName = C.PName and CaName = '$ca')";
+        }
+    }
+    $sql1 = $sql1 . ";";
+    $sql2 = $sql2 . ";";
+
     if(isset($_GET['radio']))
     {
         $type = $_GET['radio'];
-        $sql1 = "SELECT CName FROM COURSE";
-        $sql2 = "SELECT PName FROM PROJECT";
 
         if ($type === "Course" || $type === "Both") {
             $result1 = $db->query($sql1);
@@ -22,9 +58,6 @@ if (isset($_GET['filter'])) {
 
     }
     else{
-        $sql1 = "SELECT CName FROM COURSE";
-        $sql2 = "SELECT PName FROM PROJECT";
-
         $result1 = $db->query($sql1);
         $result2 = $db->query($sql2);
 
@@ -128,7 +161,7 @@ if (isset($_GET['filter'])) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+            <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -153,14 +186,14 @@ if (isset($_GET['filter'])) {
 
         </div>
       </div>
-    </div>
+
     
 
     <div class="sidebar-nav">
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li ><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -201,7 +234,7 @@ if (isset($_GET['filter'])) {
         <div class="header">
             <h1 class="page-title">Search</h1>
                 <ul class="breadcrumb">
-                    <li><a href="index.html">Home</a> </li>
+                    <li><a href="index.php">Home</a> </li>
                     <li class="active">Search</li>
                 </ul>
         </div>
@@ -262,7 +295,7 @@ if (isset($_GET['filter'])) {
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Category</label>
                         <div class="col-sm-10">
-                             <select multiple name="category" class="form-control category">
+                             <select multiple name="category[]" class="form-control category">
                                 <option value="Adaptive Learning" >Adaptive Learning</option>
                                 <option value="Crowd-Sourced">Crowd-Sourced</option>
                                 <option value="Computing for Good">Computing for Good</option>

@@ -1,5 +1,9 @@
 <?php session_start() ?>
 <?php
+include "dbinfo.php";
+$allMajor = $db->query("SELECT MName FROM MAJOR");
+$allDepartment =  $db->query("SELECT DName FROM DEPARTMENT");
+$db->close();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nameAlreadyExist = FALSE;
     $success = FALSE;
@@ -111,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+          <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -133,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -170,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -289,10 +293,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <div class="col-sm-9">
                             <select name="majorrequirement" id="majorrequirement" class="form-control">
                                 <option value="NoMajRequirement">No Requirement</option>
-                                <option value="freshman">Freshman</option>
-                                <option value="sophomore">Sophomore</option>
-                                <option value="junior">Junior</option>
-                                <option value="senior">Senior</option>
+                                <?php
+                                    while($rs = $allMajor->fetch_array(MYSQLI_ASSOC)) {
+                                        $name = $rs['MName'];
+                                        echo "<option value='$name'>$name</option>";
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -315,9 +321,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <div class="col-sm-9">
                             <select name="departmentrequirement" id="departmentrequirement" class="form-control">
                                 <option value="NoDepRequirement">No Requirement</option>
-                                <option value="cs">College of Sciences</option>
-                                <option value="cc">College of Computing</option>
-                                <option value="ce">Computer Engineering (BS/MS)</option>
+                                <?php
+                                while($rs = $allDepartment->fetch_array(MYSQLI_ASSOC)) {
+                                    $name = $rs['DName'];
+                                    echo "<option value='$name'>$name</option>";
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>

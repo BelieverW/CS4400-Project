@@ -4,7 +4,10 @@
     include "checkuser.php";
 
     if(isset($_GET['apply'])) {
-        if (false) {
+        $projectname = $_REQUEST['name'];
+        $username = $_SESSION['login_user'];
+        $alreadyApplied = mysqli_num_rows($db->query("SELECT COUNT(*) FROM APPLY WHERE SName = '$username' and PName = '$projectname'"));
+        if ($alreadyApplied == 1) {
             echo "
                 <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
                 <script>
@@ -12,7 +15,72 @@
                         $('#confirm').modal('show');
                     })
                 </script>
-                <div class=\"modal large fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-warning modal-icon\"></i><span id=\"info\">You ALREADY applied this project. You CANNOT apply AGIAN!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+        } else {
+            $userYear = $_SESSION['user_year'];
+            $userMajor = $_SESSION['user_major'];
+            $department = mysqli_fetch_array($db->query("SELECT DName FROM MAJOR WHERE MName='$usermajor'"),MYSQLI_ASSOC)['DName'];
+            $search = "SELECT COUNT(*)
+                        FROM PROJECT AS P
+                        WHERE PName = '$projectname'
+                        and (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = '$userMajor') or
+                          EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = '$department') or
+                        (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoMajRequirement') and
+                          EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoDepRequirement')))
+                        and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = '$userYear' or PRequirement = 'NoYearRequirement'))";
+            $result = mysqli_query($db, $search);
+            $count = mysqli_num_rows($result);
+            if ($count == 0) {
+                echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-dialog\">
+                        <div class=\"modal-content\">
+                            <div class=\"modal-header\">
+                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                                <h3 id=\"myModalLabel\">Confirmation</h3>
+                            </div>
+                            <div class=\"modal-body\">
+                                <p class=\"text\"><i class=\"fa fa-warning modal-icon\"></i><span id=\"info\">You don't meet the requirements. You CANNOT apply this project!</span></p>
+                            </div>
+                            <div class=\"modal-footer\">
+                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+            } else {
+                $db->query("INSERT INTO APPLY VALUES ('$username','$projectname',CURDATE(),'Pending')");
+                echo "
+                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#confirm').modal('show');
+                    })
+                </script>
+                <div class=\"modal small fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
                     <div class=\"modal-dialog\">
                         <div class=\"modal-content\">
                             <div class=\"modal-header\">
@@ -29,31 +97,7 @@
                     </div>
                 </div>
                 ";
-        } else {
-            echo "
-                <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
-                <script>
-                    $(document).ready(function(){
-                        $('#confirm').modal('show');
-                    })
-                </script>
-                <div class=\"modal large fade\" id=\"confirm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
-                    <div class=\"modal-dialog\">
-                        <div class=\"modal-content\">
-                            <div class=\"modal-header\">
-                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
-                                <h3 id=\"myModalLabel\">Confirmation</h3>
-                            </div>
-                            <div class=\"modal-body\">
-                                <p class=\"text\"><i class=\"fa fa-warning modal-icon\"></i><span id=\"info\">You don't meet the requirement. You CANNOT apply this project!</span></p>
-                            </div>
-                            <div class=\"modal-footer\">
-                                <button class=\"btn btn-default\" data-dismiss=\"modal\" aria-hidden=\"true\">Confirm</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                ";
+            }
         }
         $_REQUEST['name'] = $_SESSION['project_name'];
     }
@@ -79,6 +123,8 @@
         $advisoremail = $row['AEmail'];
         $designation = $row['DesName'];
     }
+
+    //$db->close();
 ?>
 <!doctype html>
 <html lang="en"><head>
@@ -140,7 +186,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+          <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -162,7 +208,7 @@
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -199,7 +245,7 @@
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
