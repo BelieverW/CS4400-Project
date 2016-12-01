@@ -17,7 +17,6 @@
 
     <link rel="stylesheet" type="text/css" href="stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/premium.css">
-    
 
 </head>
 <body class=" theme-blue">
@@ -80,7 +79,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+          <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -102,7 +101,7 @@
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -139,7 +138,7 @@
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -186,62 +185,73 @@
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">CS/PSYC 3750</h1>
+            <h1 class="page-title">Add a Course</h1>
             
         </div>
         <div class="main-content">
             
-<div class="row">
-    <div class="col-sm-9 main-content">
-		<h3>Course Name</h3>
-        <p>
-            Intro to Human Computer Interaction
-        </p>
-		
-        <h3>Instructor</h3>
-        <p>
-            Rosa Arriaga
-        </p>
-		
-		<div class="widget">
-            <h3>Estimated Number of Students</h3>
-            <div class="widget-body number">
-                <a><span class="large label tag label-danger">100</span></a>
+        <div class="row">
+            <div class="col-xs-12 col-sm-10">
+                 <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="coursenumber" class="col-sm-3 control-label">Course Number</label>         
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="coursenumber" placeholder="Enter Course Number" oninput="check_if_can_submit()">
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label for="coursename" class="col-sm-3 control-label">Course Name</label>         
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="coursename" placeholder="Enter Course Name" oninput="check_if_can_submit()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="instructorname" class="col-sm-3 control-label">Instructor</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="instructorname" placeholder="Enter Instructor's Name" oninput="check_if_can_submit()">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="category" class="col-sm-3 control-label">Category</label>
+                        <div class="col-sm-9">
+                            <select multiple class="form-control category" onchange="check_if_can_submit()">
+                                <option value="Adaptive Learning" >Adaptive Learning</option>
+                                <option value="Crowd-Sourced">Crowd-Sourced</option>
+                                <option value="Computing for Good">Computing for Good</option>
+                                <option value="Collaborative Action">Collaborative Action</option>
+                                <option value="Doing Good for Your Neighborhood">Doing Good for Your Neighborhood</option>
+                                <option value="Reciprocal Teaching and Learning">Reciprocal Teaching and Learning</option>
+                                <option value="Sustainable Communities">Sustainable Communities</option>
+                                <option value="Technology for Social Good">Technology for Social Good</option>
+                                <option value="Urban Development">Urban Development</option>
+                            </select>
+                         </div>
+                    </div>
+                     
+                     <div class="form-group">
+                        <label for="designation" class="col-sm-3 control-label">Designation</label>
+                        <div class="col-sm-4">
+                            <select name="designation" id="designation" class="form-control">
+                                <option value="sc">Sustainable Communities</option>
+                                <option value="community">Community</option>
+                            </select>
+                        </div>
+                         <label for="numofstudent" class="col-sm-3 control-label">Estimated # of Students</label>
+                        <div class="col-sm-2">
+                            <input type="numofstudent" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
+                        </div>
+                    </div>
+                     
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-10">
+                            <button type="submit" class="btn btn-primary" href="index.html">Back</button>
+                            <button type="submit" class="btn btn-primary submit-report" disabled="disabled">Submit</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="widget">
-            <h3>Requirements</h3>
-            <div class="widget-body requirement">
-                <a><span class="large label tag label-warning">CS Students</span></a>
-                <a><span class="large label tag label-warning">PSYC</span></a>
-            </div>
-        </div>
-        <div class="widget">
-            <h3>Categories</h3>
-            <div class="widget-body category">
-                <!--<a ><span class="large label tag label-primary">Sustainable Communities</span></a>
-                <a><span class="large label tag label-primary">Crowd-Sourced</span></a>
-                <a><span class="large label tag label-primary">Computing for Good</span></a>-->
-                <a><span class="large label tag label-primary">Doing Good for Your Neighborhood</span></a>
-                <!--<a><span class="large label tag label-primary">Reciprocal Teaching and Learning</span></a>
-                <a><span class="large label tag label-primary">Urban Development</span></a>
-                <a><span class="large label tag label-primary">Adaptive Learning</span></a>
-                <a><span class="large label tag label-primary">Technology for Social Good</span></a>
-                <a><span class="large label tag label-primary">Collaborative Action</span></a>-->
-            </div>
-        </div>
-        <div class="widget">
-            <h3>Designation</h3>
-            <div class="widget-body designation">
-                <a><span class="large label tag label-primary">Sustainable Community</span></a>
-            </div>
-        </div>
-
-    </div>
-
-    
-    
-
 </div>
 
 
@@ -259,7 +269,43 @@
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/d3.v3.min.js"></script>
     <script type="text/javascript">
-        
+        $(document).ready(function() {
+            check_if_can_submit();
+        });
+        function check_if_can_submit() {
+            var emptyNum = 0;
+            if ($("#coursenumber").val() == "") {
+                emptyNum++;
+            }
+            if ($("#coursename").val() == "") {
+                emptyNum++;
+            }
+            if ($("#instructor").val() == "") {
+                emptyNum++;
+            }
+            if ($("#numofstudent").val() == "") {
+                emptyNum++;
+            }
+            var count = 0;
+            $('.category option').each(function() {
+                if($(this).is(':selected')) {
+                    count++;
+                }
+            });
+            if (count == 0) {
+                emptyNum++;
+            }
+            
+            if (emptyNum != 0) {
+                d3.select(".submit-report")
+                    .attr("disabled", "disabled");
+            } else {
+                d3.select(".submit-report")
+                    .attr("disabled", null);
+            }
+        }
+
+
     </script>
 
 

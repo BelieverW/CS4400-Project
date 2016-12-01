@@ -74,6 +74,25 @@ WHERE PName = 'Frog Choir';
 SELECT COUNT(*)
 FROM APPLY
 WHERE SName = 'Zhao Si' and PName = 'Frog Choir';
+
+SELECT Year, MName
+FROM USER
+WHERE UName = 'Justin Bieber';
+
+SELECT DName
+FROM MAJOR
+WHERE MName = 'Computational Media (BS)';
+
+SELECT COUNT(*)
+FROM PROJECT AS P
+WHERE PName = 'Know Your Water'
+and (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'Computational Media (BS)') or 
+     EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'College of Computing') or 
+    (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoMajRequirement') and 
+     EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoDepRequirement')))
+and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'Freshman' or PRequirement = 'NoYearRequirement'));
+
+
 5.2.2 apply
 INSERT INTO APPLY VALUES
 ('Zhao Si','Frog Choir',CURDATE(),'Pending');
@@ -99,13 +118,19 @@ and CName LIKE '%Advan%'
 and EXISTS (SELECT * FROM COURSE_CATEGORY AS CC WHERE C.CNumber = CC.CNumber and CaName = 'Computing for good');
 
 7.2 search project
+SELECT DName
+FROM MAJOR
+WHERE MName = 'Computer Engineering (BS/MS)';
+
 SELECT PName
 FROM PROJECT AS P
 WHERE DesName = 'Sustainable Communities'
 and PName LIKE '%Poti%'
-and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'Computer Engineering (BS/MS)' or PRequirement = 'NoMajRequirement'))
+and (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'Computer Engineering (BS/MS)') or 
+     EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'College of Engineering') or 
+    (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoMajRequirement') and 
+     EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = 'NoDepRequirement')))
 and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'Freshman' or PRequirement = 'NoYearRequirement'))
-and EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and (PRequirement = 'College of Computing' or PRequirement = 'NoDepRequirement'))
 and EXISTS (SELECT * FROM PROJECT_CATEGORY AS C WHERE P.PName = C.PName and CaName = 'Computing for good');
 
 
