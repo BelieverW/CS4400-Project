@@ -1,3 +1,9 @@
+<?php session_start() ?>
+<?php
+    $username = $_SESSION['login_user'];
+    $usertype = $_SESSION['user_type'];
+?>
+
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -27,23 +33,7 @@
 </head>
 <body class=" theme-blue">
 
-    <!-- Demo page code -->
 
-    <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -56,13 +46,6 @@
         }
     </style>
 
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -87,37 +70,36 @@
 
     <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="" href="index.html"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Aircraft</span></a></div>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
-          <ul id="main-menu" class="nav navbar-nav navbar-right">
-            <li class="dropdown hidden-xs">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
-                    <i class="fa fa-caret-down"></i>
-                </a>
+            <ul id="main-menu" class="nav navbar-nav navbar-right">
+                <li class="dropdown hidden-xs">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> Jack Smith
+                        <i class="fa fa-caret-down"></i>
+                    </a>
 
-              <ul class="dropdown-menu">
-                <li><a href="./">My Account</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Admin Panel</li>
-                <li><a href="./">Users</a></li>
-                <li><a href="./">Security</a></li>
-                <li><a tabindex="-1" href="./">Payments</a></li>
-                <li class="divider"></li>
-                <li><a tabindex="-1" href="login.html">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
+                    <ul class="dropdown-menu">
+                        <li><a href="./">My Account</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Admin Panel</li>
+                        <li><a href="./">Users</a></li>
+                        <li><a href="./">Security</a></li>
+                        <li><a tabindex="-1" href="./">Payments</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="login.html">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
 
         </div>
-      </div>
     </div>
     
 
@@ -125,7 +107,7 @@
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse in">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li ><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
@@ -134,7 +116,7 @@
 
     <li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
         <li><ul class="premium-menu nav nav-list collapse">
-                <li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
+                <span class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
             <li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
             <li ><a href="premium-blog.html"><span class="fa fa-caret-right"></span> Blog</a></li>
             <li ><a href="premium-blog-item.html"><span class="fa fa-caret-right"></span> Blog Page</a></li>
@@ -176,9 +158,9 @@
     <p class="stat"><span class="label label-success" id="day"></span> Day</p>
 </div>
 
-            <h1 class="page-title">Welcome!</h1>
+            <h1 class="page-title">Welcome! <?php echo $username;?></h1>
                     <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> </li>
+            <li><a href="index.php">Home</a> </li>
             <li class="active">Dashboard</li>
         </ul>
 

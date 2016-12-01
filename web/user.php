@@ -177,7 +177,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"> Georgia Tech SLS</span></a></div>
+          <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"> Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -209,7 +209,7 @@
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse in">
-            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
             <li ><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
             <li class="active"><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>

@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $myusername = mysqli_real_escape_string($db, $_GET['username']);
         $mypassword = mysqli_real_escape_string($db, $_GET['password']);
 
-        $sql = "SELECT UName, UserType FROM USER WHERE UName = '$myusername' and Pw = '$mypassword'";
+        $sql = "SELECT UName, UserType, Year, MName FROM USER WHERE UName = '$myusername' and Pw = '$mypassword'";
         $result = mysqli_query($db, $sql);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         //$active = $row['active'];
@@ -20,7 +20,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if ($count == 1) {
             $_SESSION['login_user'] = $myusername;
             $_SESSION['user_type'] = $row["UserType"];
-            header("location: index.html");
+            $_SESSION['user_year'] = $row['Year'];
+            $_SESSION['user_major'] = $row['MName'];
+            header("location: index.php");
         } else {
             $userNotExist = TRUE;
         }
@@ -113,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 <div class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+        <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
     <div class="navbar-collapse collapse" style="height: 1px;">
 
