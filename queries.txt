@@ -140,8 +140,9 @@ and EXISTS (SELECT * FROM PROJECT_CATEGORY AS C WHERE P.PName = C.PName and CaNa
 2. View Applications
 
 2.1 view
-SELECT *
-FROM APPLY;
+SELECT PName, MName, Year, Status
+FROM APPLY, USER
+WHERE SName = UName;
 
 2.2 change status
 UPDATE APPLY
