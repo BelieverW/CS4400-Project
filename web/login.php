@@ -22,7 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $_SESSION['user_type'] = $row["UserType"];
             $_SESSION['user_year'] = $row['Year'];
             $_SESSION['user_major'] = $row['MName'];
-            header("location: index.php");
+            if ($row['UserType'] == 'student') {
+                header("location: index_user.php");
+            } else if ($row['UserType'] == 'admin') {
+                header("location: index_admin.php");
+            } else {
+                header("location: 404.html");
+            }
         } else {
             $userNotExist = TRUE;
         }

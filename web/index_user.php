@@ -1,33 +1,13 @@
 <?php session_start() ?>
 <?php
-include "dbinfo.php";
-//include "checkuser.php";
-
-if(!isset($_REQUEST['coursenumber'])) {
-    header("location: 404.html");
-} else {
-    $_SESSION['course_name'] = $_REQUEST['coursenumber'];
     $username = $_SESSION['login_user'];
-    $coursenumber = $_REQUEST['coursenumber'];
-    $sql1 = "SELECT * FROM COURSE WHERE CNumber = '$coursenumber'";
-    $sql2 = "SELECT CaName FROM COURSE_CATEGORY WHERE CNumber = '$coursenumber'";
-    $result1 = $db->query($sql1);
-    $category = $db->query($sql2);
-    $db->close();
-
-    $row=mysqli_fetch_array($result1, MYSQLI_ASSOC);
-    $numofstudent = $row['EstimatedNoOfStudents'];
-    $instructor = $row['Instructor'];
-    $designation = $row['DesName'];
-    $coursename = $row['CName'];
-}
-
-//$db->close();
+    $usertype = $_SESSION['user_type'];
 ?>
+
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
-    <title>Georgia Tech SLS System</title>
+    <title>Bootstrap Admin</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -38,26 +18,42 @@ if(!isset($_REQUEST['coursenumber'])) {
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
 
     <script src="lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <link rel="SHORTCUT ICON" href="images/GTYellowJacketSmall.png">
-    
+
+        <script src="lib/jQuery-Knob/js/jquery.knob.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(".knob").knob();
+        });
+    </script>
+
 
     <link rel="stylesheet" type="text/css" href="stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/premium.css">
-    
 
 </head>
 <body class=" theme-blue">
 
 
-
     <style type="text/css">
+        #line-chart {
+            height:300px;
+            width:800px;
+            margin: 0px auto;
+            margin-top: 1em;
+        }
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
             color: #fff;
         }
     </style>
 
 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
@@ -126,64 +122,36 @@ if(!isset($_REQUEST['coursenumber'])) {
                 </ul><li><a href="search.php" class="nav-header"><i class="fa fa-fw fa-search"></i> Search</a></li>
     </div>
 
-    
+
     <div class="content">
         <div class="header">
-            
-            <h1 class="page-title"><?php echo $coursenumber;?></h1>
-            
-        </div>
-        <div class="main-content">
-            
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
-		<h3>Course Name</h3>
-        <p>
-            <?php echo $coursename;?>
-        </p>
-		
-        <h3>Instructor</h3>
-        <p>
-            <?php echo $instructor;?>
-        </p>
-		
-		<div>
-            <h3>Estimated Number of Students</h3>
-            <div class="widget-body number">
-                <a><span class="large label tag label-danger"><?php echo $numofstudent;?></span></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-6">
-        <div>
-            <h3>Categories</h3>
-            <div class="widget-body category">
-                <?php
-                while($rs = $category->fetch_array(MYSQLI_ASSOC)) {
-                    $ca = $rs['CaName'];
-                    echo "
-                                <a ><span class=\"large label tag label-primary\">$ca</span></a>
-                             ";
-                }
-                ?>
-            </div>
-        </div>
-        <div>
-            <h3>Designation</h3>
-            <div class="widget-body designation">
-                <a><span class="large label tag label-primary"><?php echo $designation; ?></span></a>
-            </div>
-        </div>
-    </div>
-
-    </div>
-
-    
-    
-
+            <div class="stats">
+    <p class="stat"><span class="label label-success" id="year"></span> Year</p>
+    <p class="stat"><span class="label label-success" id="month"></span> Month</p>
+    <p class="stat"><span class="label label-success" id="day"></span> Day</p>
 </div>
 
+            <h1 class="page-title">Welcome! <?php echo $username;?></h1>
+                    <ul class="breadcrumb">
+            <li><a href="index.php">Home</a> </li>
+            <li class="active">Dashboard</li>
+        </ul>
 
+        </div>
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="panel panel-default">
+                        <a href="#widget1container" class="panel-heading" data-toggle="collapse">For User </a>
+                        <div id="widget1container" class="panel-body collapse in">
+                            <h2>Here's the introduction</h2>
+                            <p>This database has the following function :</p>
+                            <p>1. View and search any course and project available</p>
+                            <p>2. Apply for project and see your application status</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -196,12 +164,14 @@ if(!isset($_REQUEST['coursenumber'])) {
 
 
     <script src="lib/bootstrap/js/bootstrap.js"></script>
-    <script src="lib/d3.v3.min.js"></script>
-    <script type="text/javascript">
-        
+    <script>
+        $(document).ready(function() {
+            var date = new Date();
+            document.getElementById("year").innerHTML = date.getFullYear();
+            document.getElementById("month").innerHTML = date.getMonth() + 1;
+            document.getElementById("day").innerHTML = date.getDate();
+        })
     </script>
-
-
-
     
+  
 </body></html>
