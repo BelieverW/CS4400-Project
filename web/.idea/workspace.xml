@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eca5b3f4-5db1-4951-a782-abf16df3fb34" name="Default" comment="" />
+    <list default="true" id="eca5b3f4-5db1-4951-a782-abf16df3fb34" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/course-detail.php" afterPath="$PROJECT_DIR$/course-detail.php" />
+    </list>
     <ignored path="web.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -101,13 +103,13 @@
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#a#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1480642647000" expanded="true" signature="507:618" placeholder="INSERT INTO PROJECT... " />
-                <marker date="1480642647000" expanded="true" signature="727:788" placeholder="INSERT INTO COURSE_CATEGORY... " />
-                <marker date="1480642647000" expanded="true" signature="984:1152" placeholder="..." />
-                <marker date="1480642647000" expanded="true" signature="1038:1123" placeholder="{...}" />
-                <marker date="1480642647000" expanded="true" signature="1291:1310" placeholder="..." />
-                <marker date="1480642647000" expanded="true" signature="14983:15122" placeholder="..." />
-                <marker date="1480642647000" expanded="true" signature="15175:15307" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="507:618" placeholder="INSERT INTO PROJECT... " />
+                <marker date="1480644572000" expanded="true" signature="727:788" placeholder="INSERT INTO COURSE_CATEGORY... " />
+                <marker date="1480644572000" expanded="true" signature="984:1152" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="1038:1123" placeholder="{...}" />
+                <marker date="1480644572000" expanded="true" signature="1291:1310" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="14983:15122" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="15175:15307" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -116,11 +118,11 @@
       <file leaf-file-name="course-detail.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/course-detail.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24640657">
-              <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.061601643">
+              <caret line="52" column="27" selection-start-line="52" selection-start-column="27" selection-end-line="52" selection-end-column="27" />
               <folding>
-                <marker date="1480643784000" expanded="true" signature="323:375" placeholder="SELECT * FRO... COURSE" />
-                <marker date="1480643784000" expanded="true" signature="391:457" placeholder="SELECT CaNam... COURSE_CATEGORY" />
+                <marker date="1480644662000" expanded="true" signature="323:375" placeholder="SELECT * FRO... COURSE" />
+                <marker date="1480644662000" expanded="true" signature="391:457" placeholder="SELECT CaNam... COURSE_CATEGORY" />
               </folding>
             </state>
           </provider>
@@ -132,18 +134,18 @@
             <state vertical-scroll-proportion="-64.411766">
               <caret line="342" column="30" selection-start-line="342" selection-start-column="30" selection-end-line="342" selection-end-column="30" />
               <folding>
-                <marker date="1480642647000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
-                <marker date="1480642647000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
-                <marker date="1480642647000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
-                <marker date="1480642647000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
-                <marker date="1480642647000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
-                <marker date="1480642647000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-                <marker date="1480642647000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-                <marker date="1480642647000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-                <marker date="1480642647000" expanded="true" signature="1805:1973" placeholder="..." />
-                <marker date="1480642647000" expanded="true" signature="1859:1944" placeholder="{...}" />
-                <marker date="1480642647000" expanded="true" signature="15315:15426" placeholder="..." />
-                <marker date="1480642647000" expanded="true" signature="15475:15604" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
+                <marker date="1480644572000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
+                <marker date="1480644572000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
+                <marker date="1480644572000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
+                <marker date="1480644572000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
+                <marker date="1480644572000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+                <marker date="1480644572000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+                <marker date="1480644572000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+                <marker date="1480644572000" expanded="true" signature="1805:1973" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="1859:1944" placeholder="{...}" />
+                <marker date="1480644572000" expanded="true" signature="15315:15426" placeholder="..." />
+                <marker date="1480644572000" expanded="true" signature="15475:15604" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -477,18 +479,18 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="361" column="12" selection-start-line="361" selection-start-column="12" selection-end-line="364" selection-end-column="21" />
           <folding>
-            <marker date="1480642647000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
-            <marker date="1480642647000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
-            <marker date="1480642647000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
-            <marker date="1480642647000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
-            <marker date="1480642647000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
-            <marker date="1480642647000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1805:1973" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="1859:1944" placeholder="{...}" />
-            <marker date="1480642647000" expanded="true" signature="15315:15426" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="15475:15604" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
+            <marker date="1480644572000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
+            <marker date="1480644572000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
+            <marker date="1480644572000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
+            <marker date="1480644572000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
+            <marker date="1480644572000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1805:1973" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="1859:1944" placeholder="{...}" />
+            <marker date="1480644572000" expanded="true" signature="15315:15426" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="15475:15604" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -713,18 +715,18 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="3" column="30" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
           <folding>
-            <marker date="1480642647000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
-            <marker date="1480642647000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
-            <marker date="1480642647000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
-            <marker date="1480642647000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
-            <marker date="1480642647000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
-            <marker date="1480642647000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1805:1973" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="1859:1944" placeholder="{...}" />
-            <marker date="1480642647000" expanded="true" signature="15315:15426" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="15475:15604" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
+            <marker date="1480644572000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
+            <marker date="1480644572000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
+            <marker date="1480644572000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
+            <marker date="1480644572000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
+            <marker date="1480644572000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1805:1973" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="1859:1944" placeholder="{...}" />
+            <marker date="1480644572000" expanded="true" signature="15315:15426" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="15475:15604" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1067,13 +1069,13 @@
           <folding>
             <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#a#0;n#li#0;n#ul#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1480642647000" expanded="true" signature="507:618" placeholder="INSERT INTO PROJECT... " />
-            <marker date="1480642647000" expanded="true" signature="727:788" placeholder="INSERT INTO COURSE_CATEGORY... " />
-            <marker date="1480642647000" expanded="true" signature="984:1152" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="1038:1123" placeholder="{...}" />
-            <marker date="1480642647000" expanded="true" signature="1291:1310" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="14983:15122" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="15175:15307" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="507:618" placeholder="INSERT INTO PROJECT... " />
+            <marker date="1480644572000" expanded="true" signature="727:788" placeholder="INSERT INTO COURSE_CATEGORY... " />
+            <marker date="1480644572000" expanded="true" signature="984:1152" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="1038:1123" placeholder="{...}" />
+            <marker date="1480644572000" expanded="true" signature="1291:1310" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="14983:15122" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="15175:15307" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1083,18 +1085,18 @@
         <state vertical-scroll-proportion="-64.411766">
           <caret line="342" column="30" selection-start-line="342" selection-start-column="30" selection-end-line="342" selection-end-column="30" />
           <folding>
-            <marker date="1480642647000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
-            <marker date="1480642647000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
-            <marker date="1480642647000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
-            <marker date="1480642647000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
-            <marker date="1480642647000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
-            <marker date="1480642647000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
-            <marker date="1480642647000" expanded="true" signature="1805:1973" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="1859:1944" placeholder="{...}" />
-            <marker date="1480642647000" expanded="true" signature="15315:15426" placeholder="..." />
-            <marker date="1480642647000" expanded="true" signature="15475:15604" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="77:94" placeholder="SELECT MName... " />
+            <marker date="1480644572000" expanded="true" signature="77:100" placeholder="SELECT MName... MAJOR" />
+            <marker date="1480644572000" expanded="true" signature="134:162" placeholder="SELECT DName... DEPARTMENT" />
+            <marker date="1480644572000" expanded="true" signature="871:997" placeholder="INSERT INTO PROJECT... " />
+            <marker date="1480644572000" expanded="true" signature="1106:1167" placeholder="INSERT INTO PROJECT_CATEGORY... " />
+            <marker date="1480644572000" expanded="true" signature="1252:1330" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1357:1434" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1460:1543" placeholder="INSERT INTO PROJECT_REQUIREMENT... " />
+            <marker date="1480644572000" expanded="true" signature="1805:1973" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="1859:1944" placeholder="{...}" />
+            <marker date="1480644572000" expanded="true" signature="15315:15426" placeholder="..." />
+            <marker date="1480644572000" expanded="true" signature="15475:15604" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1146,11 +1148,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/course-detail.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24640657">
-          <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.061601643">
+          <caret line="52" column="27" selection-start-line="52" selection-start-column="27" selection-end-line="52" selection-end-column="27" />
           <folding>
-            <marker date="1480643784000" expanded="true" signature="323:375" placeholder="SELECT * FRO... COURSE" />
-            <marker date="1480643784000" expanded="true" signature="391:457" placeholder="SELECT CaNam... COURSE_CATEGORY" />
+            <marker date="1480644662000" expanded="true" signature="323:375" placeholder="SELECT * FRO... COURSE" />
+            <marker date="1480644662000" expanded="true" signature="391:457" placeholder="SELECT CaNam... COURSE_CATEGORY" />
           </folding>
         </state>
       </provider>
