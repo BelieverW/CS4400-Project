@@ -4,9 +4,12 @@
     include "checkuser.php";
 
     if(isset($_GET['apply'])) {
-        $projectname = $_REQUEST['name'];
+        $projectname = $_SESSION['project_name'];
         $username = $_SESSION['login_user'];
-        $alreadyApplied = mysqli_num_rows($db->query("SELECT COUNT(*) FROM APPLY WHERE SName = '$username' and PName = '$projectname'"));
+        $sql = "SELECT Date FROM APPLY WHERE SName = '$username' and PName = '$projectname'";
+        $result = mysqli_query($db, $sql);
+
+        $alreadyApplied = mysqli_num_rows($result);
         if ($alreadyApplied == 1) {
             echo "
                 <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
@@ -35,7 +38,7 @@
         } else {
             $userYear = $_SESSION['user_year'];
             $userMajor = $_SESSION['user_major'];
-            $department = mysqli_fetch_array($db->query("SELECT DName FROM MAJOR WHERE MName='$usermajor'"),MYSQLI_ASSOC)['DName'];
+            $department = mysqli_fetch_array($db->query("SELECT DName FROM MAJOR WHERE MName='$userMajor'"),MYSQLI_ASSOC)['DName'];
             $search = "SELECT COUNT(*)
                         FROM PROJECT AS P
                         WHERE PName = '$projectname'
