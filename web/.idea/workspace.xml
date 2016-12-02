@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eca5b3f4-5db1-4951-a782-abf16df3fb34" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/add-course.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/faq.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/help.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/media.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/terms-and-conditions.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/View-and-Apply.php" afterPath="$PROJECT_DIR$/View-and-Apply.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search.php" afterPath="$PROJECT_DIR$/search.php" />
     </list>
     <ignored path="web.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -165,8 +168,8 @@
       <file leaf-file-name="course-list.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/course-list.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.0020534">
-              <caret line="155" column="50" selection-start-line="155" selection-start-column="50" selection-end-line="155" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.2772074">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding>
                 <marker date="1480645891000" expanded="true" signature="88:108" placeholder="SELECT * FRO... COURSE" />
               </folding>
@@ -1125,14 +1128,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/add-course.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/add-course.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-143.75">
@@ -1202,8 +1197,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/course-list.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0020534">
-          <caret line="155" column="50" selection-start-line="155" selection-start-column="50" selection-end-line="155" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.2772074">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
             <marker date="1480645891000" expanded="true" signature="88:108" placeholder="SELECT * FRO... COURSE" />
           </folding>
