@@ -13,6 +13,7 @@ if (isset($_GET['filter'])) {
     $year = $_GET['year'];
     $category = "";
     $department = "";
+    $username = $_SESSION['login_user'];
 
 
     $sql1 = "SELECT CName, CNumber FROM COURSE AS C WHERE CName LIKE '$title'";

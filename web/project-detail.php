@@ -39,7 +39,7 @@
             $userYear = $_SESSION['user_year'];
             $userMajor = $_SESSION['user_major'];
             $department = mysqli_fetch_array($db->query("SELECT DName FROM MAJOR WHERE MName='$userMajor'"),MYSQLI_ASSOC)['DName'];
-            $search = "SELECT COUNT(*)
+            $search = "SELECT PName
                         FROM PROJECT AS P
                         WHERE PName = '$projectname'
                         and (EXISTS (SELECT * FROM PROJECT_REQUIREMENT AS R WHERE P.PName = R.PName and PRequirement = '$userMajor') or
