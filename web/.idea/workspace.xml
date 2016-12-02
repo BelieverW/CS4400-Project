@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eca5b3f4-5db1-4951-a782-abf16df3fb34" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/calendar.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-blog.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-build.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-colors.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-invoice.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-media.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-pricing-tables.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-profile.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-search-results.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-timeline.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-upgrade-account.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-users.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/premium-widgets.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/privacy-policy.html" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/add-course.html" afterPath="$PROJECT_DIR$/add-course.php" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/course-detail.html" afterPath="$PROJECT_DIR$/course-detail.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add-project.php" afterPath="$PROJECT_DIR$/add-project.php" />
-    </list>
+    <list default="true" id="eca5b3f4-5db1-4951-a782-abf16df3fb34" name="Default" comment="" />
     <ignored path="web.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
