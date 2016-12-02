@@ -13,7 +13,7 @@ if (isset($_GET['filter'])) {
     $department = "";
 
 
-    $sql1 = "SELECT CName FROM COURSE AS C WHERE CName LIKE '$title'";
+    $sql1 = "SELECT CName, CNumber FROM COURSE AS C WHERE CName LIKE '$title'";
     $sql2 = "SELECT PName FROM PROJECT AS P WHERE PName LIKE '$title'";
 
 
@@ -342,6 +342,7 @@ if (isset($_GET['filter'])) {
                <tr>
                    <th>Project Name</th>
                    <th>Type</th>
+                   <th>Detail</th>
                </tr>
                </thead>
                <tbody>
@@ -349,10 +350,12 @@ if (isset($_GET['filter'])) {
                if ($getResultCourse === TRUE) {
                    while($rs = $result1->fetch_array(MYSQLI_ASSOC)) {
                        $name = $rs['CName'];
+                       $number = $rs['CNumber'];
                        echo "
                                         <tr>
-                                            <td id='$name'>$name</td>
+                                            <td id='$number'>$name</td>
                                             <td>Course</td>
+                                            <td><a href='#' onclick='courseSelected(this)'>View Detail</a></td>
                                         </tr>
                                     ";
                    }
@@ -364,6 +367,7 @@ if (isset($_GET['filter'])) {
                                         <tr>
                                             <td id='$name'>$name</td>
                                             <td>Project</td>
+                                            <td><a href='#' onclick='projectSelected(this)'>View Detail</a></td>
                                         </tr>
                                     ";
                    }
@@ -411,6 +415,22 @@ if (isset($_GET['filter'])) {
         function filter() {
             d3.select(".result-table")
                 .style("display", "block");
+        }
+        function courseSelected(thisSection) {
+            var obj = $(thisSection);
+            var arrayContent = [];
+            obj.closest('tr').find('td').each(function() {
+                arrayContent.push($(this).attr('id'));
+            })
+            document.location.href = "course-detail.php?coursenumber=" + arrayContent[0];
+        }
+        function projectSelected(thisSection) {
+            var obj = $(thisSection);
+            var arrayContent = [];
+            obj.closest('tr').find('td').each(function() {
+                arrayContent.push($(this).text());
+            })
+            document.location.href = "project-detail.php?name=" + arrayContent[0];
         }
     </script>
 

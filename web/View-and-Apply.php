@@ -196,21 +196,6 @@
     <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script type="text/javascript">
-        (function(angular) {
-            'use strict';
-            angular.module('orderByExample2', [])
-                .controller('ExampleController', ['$scope', function($scope) {
-                    var applications = [
-                        {number: 1, name: 'Know Your Water', advisor: 'Peter'},
-                        {number: 2, name: 'Charms', advisor: 'Peter'},
-                        {number: 3, name: 'Flying', advisor: 'Peter'},
-                        {number: 4, name: 'Database Update', advisor: 'Peter'}
-                    ];
-                    $scope.propertyName = 'name';
-                    $scope.applications = applications;
-            }]);
-        })(window.angular);
-        
         $(document).ready(function() {
             $('#application_table').DataTable();
         });
