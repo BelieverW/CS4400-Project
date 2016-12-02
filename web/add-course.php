@@ -1,9 +1,5 @@
 <?php session_start() ?>
 <?php
-include "dbinfo.php";
-$allMajor = $db->query("SELECT MName FROM MAJOR");
-$allDepartment =  $db->query("SELECT DName FROM DEPARTMENT");
-$db->close();
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nameAlreadyExist = FALSE;
     $success = FALSE;
@@ -11,29 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET['submit'])) {
         include "dbinfo.php";
 
-        $newprojectname = $_GET['projectname'];
-        $newadvisor = $_GET['advisorname'];
-        $newadvisoremail = $_GET['advisoremail'];
+        $newcoursenumber = $_GET['cursenumber'];
+        $newcoursename = $_GET['coursename'];
+        $newinstructor = $_GET['instructorname'];
         $category = $_GET['category'];
         $designation = $_GET['designation'];
-        $majorrequirement = $_GET['majorrequirement'];
-        $yearrequirement = $_GET['yearrequirement'];
-        $departmentrequirement = $_GET['departmentrequirement'];
-        $description = $_GET['description'];
         $numofstudent = $_GET['numofstudent'];
 
-        $sql = "INSERT INTO PROJECT VALUES ('$newprojectname', '$numofstudent','$description','$newadvisor','$newadvisoremail','$designation')";
+        $sql = "INSERT INTO COURSE VALUES ('$newcoursename','$newcoursenumber','$newinstructor','$numofstudent','$designation')";
         if (mysqli_query($db, $sql)) {
             foreach ($category as $ca) {
-                $sqlca = "INSERT INTO PROJECT_CATEGORY VALUES ('$newprojectname','$ca')";
+                $sqlca = "INSERT INTO COURSE_CATEGORY VALUES ('$newcoursenumber','$ca')";
                 mysqli_query($db, $sqlca);
             }
-            $sqlmajor = "INSERT INTO PROJECT_REQUIREMENT VALUES ('$newprojectname','$majorrequirement')";
-            $sqlyear = "INSERT INTO PROJECT_REQUIREMENT VALUES ('$newprojectname','$yearrequirement')";
-            $sqldep = "INSERT INTO PROJECT_REQUIREMENT VALUES ('$newprojectname','$departmentrequirement')";
-            mysqli_query($db, $sqlmajor);
-            mysqli_query($db, $sqlyear);
-            mysqli_query($db, $sqldep);
             echo "
                    <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
                    <script>
@@ -48,7 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 }
 ?>
-
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -63,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
 
     <script src="lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="lib/bootstrap/js/bootstrap.js"></script>
     <link rel="SHORTCUT ICON" href="images/GTYellowJacketSmall.png">
     
 
@@ -72,6 +56,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 </head>
 <body class=" theme-blue">
+
+
+    <script type="text/javascript">
+        $(function() {
+            var match = document.cookie.match(new RegExp('color=([^;]+)'));
+            if(match) var color = match[1];
+            if(color) {
+                $('body').removeClass(function (index, css) {
+                    return (css.match (/\btheme-\S+/g) || []).join(' ')
+                })
+                $('body').addClass('theme-' + color);
+            }
+
+            $('[data-popover="true"]').popover({html: true});
+            
+        });
+    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -82,16 +83,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
             color: #fff;
         }
-        #popup {
-            visibility: hidden;
-            background-color: red;
-            position: absolute;
-            top: 10px;
-            z-index: 100;
-            height: 100px;
-            width: 300px
-        }
     </style>
+
+    <script type="text/javascript">
+        $(function() {
+            var uls = $('.sidebar-nav > ul > *').clone();
+            uls.addClass('visible-xs');
+            $('#main-menu').append(uls.clone());
+        });
+    </script>
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+          <a class="" href="index.html"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
         <div class="navbar-collapse collapse" style="height: 1px;">
           <ul id="main-menu" class="nav navbar-nav navbar-right">
@@ -133,13 +133,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <li><a href="./">Security</a></li>
                 <li><a tabindex="-1" href="./">Payments</a></li>
                 <li class="divider"></li>
-                <li><a tabindex="-1" href="login.html">Logout</a></li>
+                <li><a tabindex="-1" href="sign-in.html">Logout</a></li>
               </ul>
             </li>    
           <li class="visible-xs"><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li><li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right" data-original-title="" title="" class="visible-xs"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="premium-menu nav nav-list collapse in">
@@ -157,8 +157,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <li><a href="premium-build.html"><span class="fa fa-caret-right"></span> Advanced Tools</a></li>
             <li><a href="premium-colors.html"><span class="fa fa-caret-right"></span> Additional Color Themes</a></li>
     </ul></li><li class="visible-xs"><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li><li class="visible-xs"><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li><li class="visible-xs"><a href="#" data-target=".legal-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-legal"></i> Legal<i class="fa fa-collapse"></i></a></li><li class="visible-xs"><ul class="legal-menu nav nav-list collapse">
             <li><a href="privacy-policy.html"><span class="fa fa-caret-right"></span> Privacy Policy</a></li>
@@ -174,9 +174,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <ul>
     <li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
     <li><ul class="dashboard-menu nav nav-list collapse">
-            <li><a href="index.php"><span class="fa fa-caret-right"></span> Main</a></li>
+            <li><a href="index.html"><span class="fa fa-caret-right"></span> Main</a></li>
             <li><a href="users.html"><span class="fa fa-caret-right"></span> User List</a></li>
-            <li><a href="user.php"><span class="fa fa-caret-right"></span> User Profile</a></li>
+            <li><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
             <li><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
             <li><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
     </ul></li>
@@ -200,8 +200,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase"></i> Account <span class="label label-info">+3</span></a></li>
         <li><ul class="accounts-menu nav nav-list collapse">
-            <li><a href="login.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
-            <li><a href="signup.php"><span class="fa fa-caret-right"></span> Sign Up</a></li>
+            <li><a href="sign-in.html"><span class="fa fa-caret-right"></span> Sign In</a></li>
+            <li><a href="sign-up.html"><span class="fa fa-caret-right"></span> Sign Up</a></li>
             <li><a href="reset-password.html"><span class="fa fa-caret-right"></span> Reset Password</a></li>
     </ul></li>
 
@@ -221,46 +221,46 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">Add a Project</h1>
+            <h1 class="page-title">Add a Course</h1>
             
         </div>
         <div class="main-content">
             
         <div class="row">
             <div class="col-xs-12 col-sm-10">
-                 <form class="form-horizontal" role="form" method="get">
+                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="projectname" class="col-sm-3 control-label">Project Name</label>         
+                        <label for="coursenumber" class="col-sm-3 control-label">Course Number</label>         
                         <div class="col-sm-9">
-                            <input type="text" name="projectname" class="form-control" id="projectname" placeholder="Enter Project Name" oninput="check_if_can_submit()">
+                            <input type="text" name="coursenumber" class="form-control" id="coursenumber" placeholder="Enter Course Number" oninput="check_if_can_submit()">
                             <?php
-                            if ($nameAlreadyExist === TRUE) {
-                                echo '<p class="text-danger" id="insert-fail">
-                                <strong>Project name already exists.</strong>
-                            </p>';
-                                echo '<script>
-                                           window.setTimeout("hideMsg()", 6000);
-                                      </script>';
-                            }
+                                if ($nameAlreadyExist === TRUE) {
+                                    echo '<p class="text-danger" id="insert-fail">
+                                            <strong>Course number already exists.</strong>
+                                           </p>';
+                                    echo '<script>
+                                            window.setTimeout("hideMsg()", 6000);
+                                        </script>';
+                                }
                             ?>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="advisorname" class="col-sm-3 control-label">Advisor</label>
+					<div class="form-group">
+                        <label for="coursename" class="col-sm-3 control-label">Course Name</label>         
                         <div class="col-sm-9">
-                            <input type="text" name="advisorname" class="form-control" id="advisorname" placeholder="Enter Advisor's Name" oninput="check_if_can_submit()">
+                            <input type="text" name="coursename" class="form-control" id="coursename" placeholder="Enter Course Name" oninput="check_if_can_submit()">
                         </div>
                     </div>
-                     <div class="form-group">
-                        <label for="advisoremail" class="col-sm-3 control-label">Adivsor Email</label>
+                    <div class="form-group">
+                        <label for="instructorname" class="col-sm-3 control-label">Instructor</label>
                         <div class="col-sm-9">
-                            <input type="email" name="advisoremail" class="form-control" id="advisorname" placeholder="email@gatech.edu" oninput="check_if_can_submit()">
+                            <input type="text" name="instructorname" class="form-control" id="instructorname" placeholder="Enter Instructor's Name" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      <div class="form-group">
                         <label for="category" class="col-sm-3 control-label">Category</label>
                         <div class="col-sm-9">
-                            <select multiple name="category[]" class="form-control category" onchange="check_if_can_submit()">
+                            <select multiple class="form-control category" name="category[]" onchange="check_if_can_submit()">
                                 <option value="Adaptive Learning" >Adaptive Learning</option>
                                 <option value="Crowd-Sourced">Crowd-Sourced</option>
                                 <option value="Computing for Good">Computing for Good</option>
@@ -278,68 +278,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <label for="designation" class="col-sm-3 control-label">Designation</label>
                         <div class="col-sm-4">
                             <select name="designation" id="designation" class="form-control">
-                                <option value="Sustainable Communities">Sustainable Communities</option>
-                                <option value="Community">Community</option>
+                                <option value="sc">Sustainable Communities</option>
+                                <option value="community">Community</option>
                             </select>
                         </div>
                          <label for="numofstudent" class="col-sm-3 control-label">Estimated # of Students</label>
                         <div class="col-sm-2">
-                            <input name="numofstudent" type="number" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
+                            <input type="numofstudent" name="numofstudent" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      
-                    <div class="form-group">
-                        <label for="majorrequirement" class="col-sm-3 control-label">Major Requirement</label>
-                        <div class="col-sm-9">
-                            <select name="majorrequirement" id="majorrequirement" class="form-control">
-                                <option value="NoMajRequirement">No Requirement</option>
-                                <?php
-                                    while($rs = $allMajor->fetch_array(MYSQLI_ASSOC)) {
-                                        $name = $rs['MName'];
-                                        echo "<option value='$name'>$name</option>";
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                     
-                    <div class="form-group">
-                        <label for="yearrequirement" class="col-sm-3 control-label">Year Requirement</label>
-                        <div class="col-sm-9">
-                            <select name="yearrequirement" id="yearrequirement" class="form-control">
-                                <option value="NoYearRequirement">No Requirement</option>
-                                <option value="freshman">Only Freshman Students</option>
-                                <option value="sophomore">Only Sophomore Students</option>
-                                <option value="junior">Only Junior Students</option>
-                                <option value="senior">Only Senior Students</option>
-                            </select>
-                        </div>
-                    </div>
                     
                     <div class="form-group">
-                        <label for="departmentrequirement" class="col-sm-3 control-label">Department Requirement</label>
-                        <div class="col-sm-9">
-                            <select name="departmentrequirement" id="departmentrequirement" class="form-control">
-                                <option value="NoDepRequirement">No Requirement</option>
-                                <?php
-                                while($rs = $allDepartment->fetch_array(MYSQLI_ASSOC)) {
-                                    $name = $rs['DName'];
-                                    echo "<option value='$name'>$name</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="feedback" class="col-sm-3 control-label">Description</label>
-                        <div class="col-sm-9">
-                            <textarea name="description" class="form-control" id="description" rows="12" oninput="check_if_can_submit()"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-10">
-                            <button class="btn btn-primary" href="index.html">Back</button>
-                            <button type="submit" class="btn btn-primary submit-report" disabled="disabled" name="submit">Submit</button>
+                            <button type="submit" class="btn btn-primary" href="index.php">Back</button>
+                            <button type="submit" name="submit" class="btn btn-primary submit-report" disabled="disabled">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -374,6 +327,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </footer>
         </div>
     </div>
+
+
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
     <script src="lib/d3.v3.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -381,19 +337,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         });
         function check_if_can_submit() {
             var emptyNum = 0;
-            if ($("#projectname").val() == "") {
+            if ($("#coursenumber").val() == "") {
                 emptyNum++;
             }
-            if ($("#advisorname").val() == "") {
+            if ($("#coursename").val() == "") {
                 emptyNum++;
             }
-            if ($("#advisorname").val() == "") {
+            if ($("#instructor").val() == "") {
                 emptyNum++;
             }
             if ($("#numofstudent").val() == "") {
-                emptyNum++;
-            }
-            if ($("#description").val() == "") {
                 emptyNum++;
             }
             var count = 0;
@@ -417,6 +370,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         function hideMsg() {
             d3.select("#insert-fail").remove();
         }
+
 
     </script>
 
