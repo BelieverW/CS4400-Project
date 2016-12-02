@@ -1,3 +1,39 @@
+<?php session_start() ?>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $nameAlreadyExist = FALSE;
+    $success = FALSE;
+    $refresh = FALSE;
+    if (isset($_GET['submit'])) {
+        include "dbinfo.php";
+
+        $newcoursenumber = $_GET['cursenumber'];
+        $newcoursename = $_GET['coursename'];
+        $newinstructor = $_GET['instructorname'];
+        $category = $_GET['category'];
+        $designation = $_GET['designation'];
+        $numofstudent = $_GET['numofstudent'];
+
+        $sql = "INSERT INTO COURSE VALUES ('$newcoursename','$newcoursenumber','$newinstructor','$numofstudent','$designation')";
+        if (mysqli_query($db, $sql)) {
+            foreach ($category as $ca) {
+                $sqlca = "INSERT INTO COURSE_CATEGORY VALUES ('$newcoursenumber','$ca')";
+                mysqli_query($db, $sqlca);
+            }
+            echo "
+                   <script src='lib/jquery-1.11.1.min.js' type='text/javascript'></script>
+                   <script>
+                        $(document).ready(function(){
+                            $('#myAdvert').modal('show');
+                        })
+                   </script>";
+        } else {
+            $nameAlreadyExist = TRUE;
+        }
+        $db->close();
+    }
+}
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -196,25 +232,35 @@
                     <div class="form-group">
                         <label for="coursenumber" class="col-sm-3 control-label">Course Number</label>         
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="coursenumber" placeholder="Enter Course Number" oninput="check_if_can_submit()">
+                            <input type="text" name="coursenumber" class="form-control" id="coursenumber" placeholder="Enter Course Number" oninput="check_if_can_submit()">
+                            <?php
+                                if ($nameAlreadyExist === TRUE) {
+                                    echo '<p class="text-danger" id="insert-fail">
+                                            <strong>Course number already exists.</strong>
+                                           </p>';
+                                    echo '<script>
+                                            window.setTimeout("hideMsg()", 6000);
+                                        </script>';
+                                }
+                            ?>
                         </div>
                     </div>
 					<div class="form-group">
                         <label for="coursename" class="col-sm-3 control-label">Course Name</label>         
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="coursename" placeholder="Enter Course Name" oninput="check_if_can_submit()">
+                            <input type="text" name="coursename" class="form-control" id="coursename" placeholder="Enter Course Name" oninput="check_if_can_submit()">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="instructorname" class="col-sm-3 control-label">Instructor</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="instructorname" placeholder="Enter Instructor's Name" oninput="check_if_can_submit()">
+                            <input type="text" name="instructorname" class="form-control" id="instructorname" placeholder="Enter Instructor's Name" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      <div class="form-group">
                         <label for="category" class="col-sm-3 control-label">Category</label>
                         <div class="col-sm-9">
-                            <select multiple class="form-control category" onchange="check_if_can_submit()">
+                            <select multiple class="form-control category" name="category[]" onchange="check_if_can_submit()">
                                 <option value="Adaptive Learning" >Adaptive Learning</option>
                                 <option value="Crowd-Sourced">Crowd-Sourced</option>
                                 <option value="Computing for Good">Computing for Good</option>
@@ -238,18 +284,35 @@
                         </div>
                          <label for="numofstudent" class="col-sm-3 control-label">Estimated # of Students</label>
                         <div class="col-sm-2">
-                            <input type="numofstudent" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
+                            <input type="numofstudent" name="numofstudent" class="form-control" id="numofstudent" oninput="check_if_can_submit()">
                         </div>
                     </div>
                      
                     
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-10">
-                            <button type="submit" class="btn btn-primary" href="index.html">Back</button>
-                            <button type="submit" class="btn btn-primary submit-report" disabled="disabled">Submit</button>
+                            <button type="submit" class="btn btn-primary" href="index.php">Back</button>
+                            <button type="submit" name="submit" class="btn btn-primary submit-report" disabled="disabled">Submit</button>
                         </div>
                     </div>
                 </form>
+
+                <div class="modal small fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">Confirmation</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text"><i class="fa fa-thumbs-up modal-icon"></i><span id="info">Record Added Successfully!</span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 </div>
@@ -303,6 +366,9 @@
                 d3.select(".submit-report")
                     .attr("disabled", null);
             }
+        }
+        function hideMsg() {
+            d3.select("#insert-fail").remove();
         }
 
 

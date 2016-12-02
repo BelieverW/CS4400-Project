@@ -1,3 +1,29 @@
+<?php session_start() ?>
+<?php
+include "dbinfo.php";
+//include "checkuser.php";
+
+if(!isset($_REQUEST['coursenumber'])) {
+    header("location: 404.html");
+} else {
+    $_SESSION['course_name'] = $_REQUEST['coursenumber'];
+    $username = $_SESSION['login_user'];
+    $coursenumber = $_REQUEST['coursenumber'];
+    $sql1 = "SELECT * FROM COURSE WHERE CNumber = '$coursenumber'";
+    $sql2 = "SELECT CaName FROM COURSE_CATEGORY WHERE CNumber = '$coursenumber'";
+    $result1 = $db->query($sql1);
+    $category = $db->query($sql2);
+    $db->close();
+
+    $row=mysqli_fetch_array($result1, MYSQLI_ASSOC);
+    $numofstudent = $row['EstimatedNoOfStudents'];
+    $instructor = $row['Instructor'];
+    $designation = $row['DesName'];
+    $coursename = $row['CName'];
+}
+
+//$db->close();
+?>
 <!doctype html>
 <html lang="en"><head>
     <meta charset="utf-8">
@@ -23,21 +49,7 @@
 <body class=" theme-blue">
 
 
-    <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
 
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-    </script>
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -50,13 +62,7 @@
         }
     </style>
 
-    <script type="text/javascript">
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-    </script>
+
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
@@ -186,56 +192,51 @@
     <div class="content">
         <div class="header">
             
-            <h1 class="page-title">CS/PSYC 3750</h1>
+            <h1 class="page-title"><?php echo $coursenumber;?></h1>
             
         </div>
         <div class="main-content">
             
 <div class="row">
-    <div class="col-sm-9 main-content">
+    <div class="col-xs-12 col-sm-6">
 		<h3>Course Name</h3>
         <p>
-            Intro to Human Computer Interaction
+            <?php echo $coursename;?>
         </p>
 		
         <h3>Instructor</h3>
         <p>
-            Rosa Arriaga
+            <?php echo $instructor;?>
         </p>
 		
-		<div class="widget">
+		<div>
             <h3>Estimated Number of Students</h3>
             <div class="widget-body number">
-                <a><span class="large label tag label-danger">100</span></a>
+                <a><span class="large label tag label-danger"><?php echo $numofstudent;?></span></a>
             </div>
         </div>
-        <div class="widget">
-            <h3>Requirements</h3>
-            <div class="widget-body requirement">
-                <a><span class="large label tag label-warning">CS Students</span></a>
-                <a><span class="large label tag label-warning">PSYC</span></a>
-            </div>
-        </div>
-        <div class="widget">
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div>
             <h3>Categories</h3>
             <div class="widget-body category">
-                <!--<a ><span class="large label tag label-primary">Sustainable Communities</span></a>
-                <a><span class="large label tag label-primary">Crowd-Sourced</span></a>
-                <a><span class="large label tag label-primary">Computing for Good</span></a>-->
-                <a><span class="large label tag label-primary">Doing Good for Your Neighborhood</span></a>
-                <!--<a><span class="large label tag label-primary">Reciprocal Teaching and Learning</span></a>
-                <a><span class="large label tag label-primary">Urban Development</span></a>
-                <a><span class="large label tag label-primary">Adaptive Learning</span></a>
-                <a><span class="large label tag label-primary">Technology for Social Good</span></a>
-                <a><span class="large label tag label-primary">Collaborative Action</span></a>-->
+                <?php
+                while($rs = $category->fetch_array(MYSQLI_ASSOC)) {
+                    $ca = $rs['CaName'];
+                    echo "
+                                <a ><span class=\"large label tag label-primary\">$ca</span></a>
+                             ";
+                }
+                ?>
             </div>
         </div>
-        <div class="widget">
+        <div>
             <h3>Designation</h3>
             <div class="widget-body designation">
-                <a><span class="large label tag label-primary">Sustainable Community</span></a>
+                <a><span class="large label tag label-primary"><?php echo $designation; ?></span></a>
             </div>
         </div>
+    </div>
 
     </div>
 

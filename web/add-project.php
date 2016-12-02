@@ -344,7 +344,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     </div>
                 </form>
 
-                <div class="modal large fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal small fade" id="myAdvert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
