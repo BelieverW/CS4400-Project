@@ -1,5 +1,9 @@
 <?php session_start() ?>
 <?php
+include "dbinfo.php";
+include "checkuser.php";
+$allMajor = $db->query("SELECT MName FROM MAJOR");
+$db->close();
 $result1 = "";
 $result2 = "";
 $username = $_SESSION['login_user'];
@@ -245,12 +249,12 @@ if (isset($_GET['filter'])) {
                         <div class="col-sm-10">
                             <select name="major" id="major" class="form-control">
                                 <option value="default">Default</option>
-                                <option value="CS">Computer Science</option>
-                                <option value="ARCH">Architecture</option>
-                                <option value="BMED">Biomedical Engineering</option>
-                                <option value="PUBP">Policy and Government</option>
-                                <option value="EAS">Earth and Atmospheric</option>
-                                <option value="BIOL">Biological Science</option>
+                                <?php
+                                while($rs = $allMajor->fetch_array(MYSQLI_ASSOC)) {
+                                    $name = $rs['MName'];
+                                    echo "<option value='$name'>$name</option>";
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
