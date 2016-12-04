@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-10">
-                            <button type="submit" class="btn btn-primary" href="index.php">Back</button>
+                            <button type="submit" class="btn btn-primary" href="index_admin.php">Back</button>
                             <button type="submit" name="submit" class="btn btn-primary submit-report" disabled="disabled">Submit</button>
                         </div>
                     </div>

@@ -169,7 +169,7 @@ if (isset($_GET['filter'])) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="" href="index.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
+        <a class="" href="index_user.php"><span class="navbar-brand"><img src="images/GTYellowJacket3.png" height="30"></span> <span class="navbar-brand">Georgia Tech SLS</span></a></div>
 
 
     <div class="navbar-collapse collapse" style="height: 1px;">
@@ -218,7 +218,7 @@ if (isset($_GET['filter'])) {
         <div class="header">
             <h1 class="page-title">Search</h1>
                 <ul class="breadcrumb">
-                    <li><a href="index.php">Home</a> </li>
+                    <li><a href="index_user.php">Home</a> </li>
                     <li class="active">Search</li>
                 </ul>
         </div>
