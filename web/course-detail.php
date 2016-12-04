@@ -1,7 +1,7 @@
 <?php session_start() ?>
 <?php
 include "dbinfo.php";
-//include "checkuser.php";
+include "checkuser.php";
 
 if(!isset($_REQUEST['coursenumber'])) {
     header("location: 404.html");

@@ -2,6 +2,7 @@
 <?php
     include "dbinfo.php";
     include "checkuser.php";
+    include "checkuser_student.php";
 
     $username = $_SESSION['login_user'];
     $sql1 = "SELECT * FROM PROJECT";

@@ -2,6 +2,7 @@
 <?php
 include "dbinfo.php";
 include "checkuser.php";
+include "checkuser_student.php";
 $allMajor = $db->query("SELECT MName FROM MAJOR");
 $db->close();
 $result1 = "";

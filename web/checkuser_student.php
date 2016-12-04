@@ -9,7 +9,7 @@ if (!isset($_SESSION['login_user'])) {
     header("location: login.php");
 } else {
     if($_SESSION['user_type'] != 'student') {
-        header("location: login.php");
+        header("location: index_admin.php");
     }
 }
 ?>

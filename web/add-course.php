@@ -5,6 +5,7 @@ include "checkuser_admin.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nameAlreadyExist = FALSE;
+    $numberAlreadyExist = FALSE;
     $success = FALSE;
     $refresh = FALSE;
     if (isset($_GET['submit'])) {
@@ -17,8 +18,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $designation = $_GET['designation'];
         $numofstudent = $_GET['numofstudent'];
 
-        $sql = "INSERT INTO COURSE VALUES ('$newcoursename','$newcoursenumber','$newinstructor','$numofstudent','$designation')";
-        if (mysqli_query($db, $sql)) {
+        $check1 = "SELECT CNumber FROM COURSE WHERE CNumber = '$newcoursenumber'";
+        $check2 = "SELECT CNumber FROM COURSE WHERE CName = '$newcoursename'";
+        $result1 = mysqli_query($db, $check1);
+        $result2 = mysqli_query($db, $check2);
+        $count1 = mysqli_num_rows($result1);
+        $count2 = mysqli_num_rows($result2);
+        if ($count1 == 1) {
+            $numberAlreadyExist = TRUE;
+        } else if ($count2 == 1) {
+            $nameAlreadyExist = TRUE;
+        } else {
+            $sql = "INSERT INTO COURSE VALUES ('$newcoursename','$newcoursenumber','$newinstructor','$numofstudent','$designation')";
+            mysqli_query($db, $sql);
             foreach ($category as $ca) {
                 $sqlca = "INSERT INTO COURSE_CATEGORY VALUES ('$newcoursenumber','$ca')";
                 mysqli_query($db, $sqlca);
@@ -30,8 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             $('#myAdvert').modal('show');
                         })
                    </script>";
-        } else {
-            $nameAlreadyExist = TRUE;
+
         }
         $db->close();
     }
@@ -130,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
               <ul class="dropdown-menu">
 			    <li><a tabindex="-1" href="reset-password.html">Reset Password</a></li>
-                <li><a tabindex="-1" href="login.html">Logout</a></li>
+                <li><a tabindex="-1" href="logout.php">Logout</a></li>
               </ul>
             </li>    
           </ul>
@@ -180,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <div class="col-sm-9">
                             <input type="text" name="coursenumber" class="form-control" id="coursenumber" placeholder="Enter Course Number" oninput="check_if_can_submit()">
                             <?php
-                                if ($nameAlreadyExist === TRUE) {
+                                if ($numberAlreadyExist === TRUE) {
                                     echo '<p class="text-danger" id="insert-fail">
                                             <strong>Course number already exists.</strong>
                                            </p>';
@@ -195,6 +206,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <label for="coursename" class="col-sm-3 control-label">Course Name</label>         
                         <div class="col-sm-9">
                             <input type="text" name="coursename" class="form-control" id="coursename" placeholder="Enter Course Name" oninput="check_if_can_submit()">
+                            <?php
+                            if ($nameAlreadyExist === TRUE) {
+                                echo '<p class="text-danger" id="insert-fail">
+                                            <strong>Course name already exists.</strong>
+                                           </p>';
+                                echo '<script>
+                                            window.setTimeout("hideMsg()", 6000);
+                                        </script>';
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -224,8 +245,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <label for="designation" class="col-sm-3 control-label">Designation</label>
                         <div class="col-sm-4">
                             <select name="designation" id="designation" class="form-control">
-                                <option value="sc">Sustainable Communities</option>
-                                <option value="community">Community</option>
+                                <option value="Sustainable Communities">Sustainable Communities</option>
+                                <option value="Community">Community</option>
                             </select>
                         </div>
                          <label for="numofstudent" class="col-sm-3 control-label">Estimated # of Students</label>
@@ -254,7 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <p class="text"><i class="fa fa-thumbs-up modal-icon"></i><span id="info">Record Added Successfully!</span></p>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Confirm</button>
+                                <button class="btn btn-default" onclick="jump()">Confirm</button>
                             </div>
                         </div>
                     </div>
@@ -315,6 +336,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
         function hideMsg() {
             d3.select("#insert-fail").remove();
+        }
+        function jump() {
+            document.location.href = "add-course.php";
         }
 
 

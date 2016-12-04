@@ -1,5 +1,7 @@
 <?php session_start() ?>
 <?php
+    include "checkuser.php";
+    include "checkuser_student.php";
     $username = $_SESSION['login_user'];
     $usertype = $_SESSION['user_type'];
 ?>

@@ -2,6 +2,7 @@
 <?php
 $userAlreadyExist = FALSE;
 $emailNotExist = FALSE;
+$emailNotValid = FALSE;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET['signup'])) {
         include "dbinfo.php";
@@ -10,34 +11,42 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $mygtemail = mysqli_real_escape_string($db, $_GET['gtemail']);
         $mypassword = mysqli_real_escape_string($db, $_GET['password']);
 
-        $sql1 = "SELECT UName FROM USER WHERE UName = '$myusername'";
-        $result1 = mysqli_query($db, $sql1);
-        $row = mysqli_fetch_array($result1, MYSQLI_ASSOC);
-        //$active = $row['active'];
+        $emailSuffix = explode("@",$mygtemail)[1];
+        if (strpos($emailSuffix, 'gatech.edu') !== false) {
+            $sql1 = "SELECT UName FROM USER WHERE UName = '$myusername'";
+            $result1 = mysqli_query($db, $sql1);
+            $row = mysqli_fetch_array($result1, MYSQLI_ASSOC);
+            //$active = $row['active'];
 
-        $count = mysqli_num_rows($result1);
+            $count = mysqli_num_rows($result1);
 
-        // If result matched $myusername and $mypassword, table row must be 1 row
+            // If result matched $myusername and $mypassword, table row must be 1 row
 
-        if ($count == 1) {
-            $userAlreadyExist = TRUE;
-        } else {
-            $sql2 = "SELECT GTEmail FROM USER WHERE GTEmail = '$mygtemail'";
-            $result2 = mysqli_query($db, $sql2);
-            $count2 = mysqli_num_rows($result2);
-            if ($count2 == 1) {
-                $sql3 = "INSERT INTO USER VALUES ('$myusername','$mypassword','student', '$mygtemail', 'Freshman', NULL)";
-                if (mysqli_query($db, $sql3)) {
-                    $_SESSION['login_user'] = $myusername;
-                    $_SESSION['user_type'] = 'student';
-                    header("location: index.php");
-                } else {
-                    echo "Error: " . $sql3 . "<br>" . mysqli_error($db);
-                }
+            if ($count == 1) {
+                $userAlreadyExist = TRUE;
             } else {
-                $emailNotExist = TRUE;
+                $sql2 = "SELECT GTEmail FROM USER WHERE GTEmail = '$mygtemail'";
+                $result2 = mysqli_query($db, $sql2);
+                $count2 = mysqli_num_rows($result2);
+                if ($count2 == 1) {
+                    $emailNotExist = TRUE;
+                } else {
+                    $sql3 = "INSERT INTO USER VALUES ('$myusername','$mypassword','student', '$mygtemail', 'Freshman', NULL)";
+                    if (mysqli_query($db, $sql3)) {
+                        $_SESSION['login_user'] = $myusername;
+                        $_SESSION['user_type'] = 'student';
+                        header("location: index_user.php");
+                    } else {
+                        echo "Error: " . $sql3 . "<br>" . mysqli_error($db);
+                    }
+                }
             }
+        } else {
+            $emailNotValid = TRUE;
         }
+
+
+
         $db->close();
     }
 }
@@ -135,6 +144,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <input type="text" class="form-control span12" id="sign_up_email" name="gtemail" oninput="check_if_can_signup()"/>
                     <?php
                     if ($emailNotExist === TRUE) {
+                        echo '<p class="text-danger" id="msg">
+                                <strong>Your GT Email already exists.</strong>
+                            </p>';
+                        echo '<script>
+                                 window.setTimeout("hideMsg()", 10000);
+                              </script>';
+                    }
+                    if ($emailNotValid === TRUE) {
                         echo '<p class="text-danger" id="msg">
                                 <strong>Your GT Email is invalid.</strong>
                             </p>';

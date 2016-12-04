@@ -2,7 +2,7 @@
 <?php
     include "dbinfo.php";
     include "checkuser.php";
-
+    include "checkuser_student.php";
     $username = $_SESSION['login_user'];
     $usertype = $_SESSION['user_type'];
     $sql1 = "SELECT * FROM USER WHERE UName = '$username'";

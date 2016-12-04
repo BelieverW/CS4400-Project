@@ -2,6 +2,7 @@
 <?php
     include "dbinfo.php";
     include "checkuser.php";
+    include "checkuser_student.php";
 
     if(isset($_GET['apply'])) {
         $projectname = $_SESSION['project_name'];
