@@ -34,7 +34,7 @@ On this page, students can view their applications. More information about appli
 
 ### 3.4	Search/Filter
 
-<figure><img src='http://7xs1zn.com1.z0.glb.clouddn.com/img/database/search.png' width="50%"><img src='http://7xs1zn.com1.z0.glb.clouddn.com/img/database/filter.png' width="50%"><figcaption>Figure 5: Search</figcaption></figure>
+<figure><img src='http://7xs1zn.com1.z0.glb.clouddn.com/img/database/search.png' width="50%" display="inline-block"><img src='http://7xs1zn.com1.z0.glb.clouddn.com/img/database/filter.png' width="50%" display="inline-block"><figcaption>Figure 5: Search</figcaption></figure>
 
 Students can use the search bar and filter tool on Main Page to find a course/project.
 
