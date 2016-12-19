@@ -6,9 +6,12 @@
  * Time: 09:39
  */
 global $username, $password, $host, $db;
-$username = 'cs4400_Team_56';
-$password = 'Ysvq2Jc5';
-$host = 'academic-mysql.cc.gatech.edu';
+//$username = 'cs4400_Team_56';
+//$password = 'Ysvq2Jc5';
+//$host = 'academic-mysql.cc.gatech.edu';
+$username = 'root';
+$password = 'root';
+$host = 'http://54.88.105.173/phpmyadmin/';
 
 $db = mysqli_connect($host, $username, $password, $username);
 if (!$db) {

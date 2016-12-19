@@ -16,7 +16,7 @@
     $sql2 = "SELECT DName FROM MAJOR WHERE MName='$major'";
     $department = mysqli_fetch_array($db->query($sql2),MYSQLI_ASSOC)['DName'];
 
-    $sql3 = "SELECT DISTINCT MName FROM MAJOR WHERE DName='$department'";
+    $sql3 = "SELECT DISTINCT MName FROM MAJOR";
     $allMajor = $db->query($sql3);
 
     if (isset($_GET['save'])) {
